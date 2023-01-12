@@ -16,6 +16,7 @@ class _ScanPageState extends State<ScanPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text('Scan'),
           bottom: TabBar(
             tabs: [

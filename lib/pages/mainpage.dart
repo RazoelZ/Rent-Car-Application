@@ -4,13 +4,13 @@ import 'package:rentvehicle_application/pages/form.dart';
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
-  static const String _title = 'Peminjaman Kendaraan';
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
+        appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: const Text('Peminjaman Kendaraan')),
         body: Column(
           children: [
             Container(

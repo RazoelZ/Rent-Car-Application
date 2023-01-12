@@ -12,6 +12,7 @@ class _RentPageState extends State<RentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Peminjaman"),
       ),
       body: Container(
