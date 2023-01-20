@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/pages/profile.dart';
-import 'package:rentvehicle_application/pages/mainpage.dart';
-import 'package:rentvehicle_application/pages/peminjaman.dart';
-import 'package:rentvehicle_application/pages/scan.dart';
+import 'package:rentvehicle_application/screen/profile.dart';
+import 'package:rentvehicle_application/screen/mainpage.dart';
+import 'package:rentvehicle_application/screen/peminjaman.dart';
+import 'package:rentvehicle_application/screen/scan.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

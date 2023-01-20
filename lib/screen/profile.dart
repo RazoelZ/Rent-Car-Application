@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/pages/login.dart';
+import 'package:rentvehicle_application/model/UserModel.dart';
+import 'package:rentvehicle_application/core/repository.dart';
+import 'package:rentvehicle_application/screen/login.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -9,6 +11,22 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  User user = User();
+  UserRepository repository = UserRepository();
+
+  getData() async {
+    var data = await repository.getData();
+    setState(() {
+      user = data;
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,17 +44,14 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Container(
               margin: EdgeInsets.only(top: 10),
-              child: Text(
-                "Arka Joko Pranoto",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-              ),
+              child: Text((user != null) ? user.nama.toString() : "Loading...",
+                  style: TextStyle(fontSize: 15)),
             ),
             Container(
               margin: EdgeInsets.only(top: 10),
               child: Text(
-                "arkadiojoko@gmail.com",
-                style: TextStyle(fontSize: 15),
-              ),
+                  (user != null) ? user.username.toString() : "Loading...",
+                  style: TextStyle(fontSize: 15)),
             ),
             Container(
               margin: EdgeInsets.only(top: 100),

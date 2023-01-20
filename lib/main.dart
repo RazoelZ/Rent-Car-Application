@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/pages/login.dart';
+import 'package:rentvehicle_application/screen/login.dart';
 
 void main() {
   runApp(const MyApp());

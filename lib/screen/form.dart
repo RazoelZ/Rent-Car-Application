@@ -12,7 +12,7 @@ class _FormPageState extends State<FormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Silahkan isi form berikut"),
+          title: Text("Form Peminjaman"),
         ),
         body: Container(
           margin: EdgeInsets.all(20),
