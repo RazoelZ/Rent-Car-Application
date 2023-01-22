@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentvehicle_application/screen/StepperForm.dart';
 import 'package:rentvehicle_application/screen/login.dart';
 
 void main() {
@@ -15,8 +16,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginPage(),
-    );
+    return MaterialApp(home: LoginPage());
   }
 }
