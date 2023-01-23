@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +9,7 @@ import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
 class Repository {
-  final _baseUrl = "http://192.168.0.103/rent_car/public";
+  final _baseUrl = "http://192.168.0.100/rent_car/public";
 
   Future getData() async {
     try {
@@ -32,7 +31,7 @@ class Repository {
 
 //Mengambil data dari table user 1
 class UserRepository {
-  final _baseUrl = "http://192.168.0.103/rent_car/public";
+  final _baseUrl = "http://192.168.0.100/rent_car/public";
 
   Future getData() async {
     try {
@@ -52,7 +51,7 @@ class UserRepository {
 
 //Mengambil data dari table mainkendaran untuk page home
 class MainKendaraanRepository {
-  final _baseUrl = "http://192.168.0.103/rent_car/public";
+  final _baseUrl = "http://192.168.0.100/rent_car/public";
 
   Future getData() async {
     try {
@@ -74,12 +73,11 @@ class MainKendaraanRepository {
 //Mengirim data ke table peminjaman
 
 class PeminjamanRepository {
-  final _baseUrl = "http://192.168.0.103/rent_car/public";
+  final _baseUrl = "http://192.168.0.100/rent_car/public";
 
   Future getData() async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/peminjaman'));
-
       if (response.statusCode == 200) {
         Iterable it = jsonDecode(response.body);
         List<Peminjaman> peminjaman = List<Peminjaman>.from(
@@ -93,47 +91,42 @@ class PeminjamanRepository {
     }
   }
 
-  Future postdata(
-      String id_kendaraan,
-      String id_user,
-      DateTime tgl_peminjaman,
-      DateTime jam_peminjaman,
-      Int km_awal,
-      String saldo_tol_awal,
-      DateTime tgl_kembali,
-      DateTime jam_kembali,
-      int km_akhir,
-      String saldo_tol_akhir,
-      String keperluan,
-      String driver,
-      String tujuan,
-      String bbm,
-      String lampiran_tol,
-      String lampiran_bbm,
-      int total_km) async {
+  Future postPeminjamanData(
+    String id_kendaraan,
+    String id_user,
+    String tgl_peminjaman,
+    String jam_peminjaman,
+    String km_awal,
+    String saldo_tol_awal,
+    String keperluan,
+    String driver,
+    String tujuan,
+  ) async {
     try {
       final response =
-          await http.post(Uri.parse(_baseUrl + 'peminjaman'), body: {
-        'id_kendaraan': id_kendaraan,
-        'id_user': id_user,
-        'tgl_peminjaman': tgl_peminjaman,
-        'jam_peminjaman': jam_peminjaman,
-        'km_awal': km_awal,
-        'saldo_tol_awal': saldo_tol_awal,
-        'tgl_kembali': tgl_kembali,
-        'jam_kembali': jam_kembali,
-        'km_akhir': km_akhir,
-        'saldo_tol_akhir': saldo_tol_akhir,
-        'keperluan': keperluan,
-        'driver': driver,
-        'tujuan': tujuan,
-        'bbm': bbm,
-        'lampiran_tol': lampiran_tol,
-        'lampiran_bbm': lampiran_bbm,
-        'total_km': total_km,
+          await http.post(Uri.parse(_baseUrl + '/peminjaman'), body: {
+        "id_kendaraan": id_kendaraan,
+        "id_user": id_user,
+        "tgl_peminjaman": tgl_peminjaman,
+        "jam_peminjaman": jam_peminjaman,
+        "km_awal": km_awal,
+        "saldo_tol_awal": saldo_tol_awal,
+        "keperluan": keperluan,
+        "driver": driver,
+        "tujuan": tujuan,
       });
+      print(response.body);
+      print(id_kendaraan);
+      print(id_user);
+      print(tgl_peminjaman);
+      print(jam_peminjaman);
+      print(km_awal);
+      print(saldo_tol_awal);
+      print(keperluan);
+      print(driver);
+      print(tujuan);
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return true;
       } else {
         return false;
@@ -141,3 +134,22 @@ class PeminjamanRepository {
     } catch (e) {}
   }
 }
+
+// class buangan{
+
+//             String? tgl_kembali,
+//       String? jam_kembali,
+//             int? km_akhir,
+//       String? saldo_tol_akhir,
+//             String? bbm,
+//       String? lampiran_tol,
+//       String? lampiran_bbm,
+//       int? total_km
+// }
+
+// "tgl_peminjaman":
+//             "${tgl_peminjaman.year.toString().padLeft(4, '0')}-${tgl_peminjaman.month.toString().padLeft(2, '0')}-${tgl_peminjaman.day.toString().padLeft(2, '0')}",
+//         "jam_peminjaman":
+//             "${jam_peminjaman.hour.toString().padLeft(4, '0')}-${jam_peminjaman.minute.toString().padLeft(2, '0')}-${jam_peminjaman.second.toString().padLeft(2, '0')}",
+
+      

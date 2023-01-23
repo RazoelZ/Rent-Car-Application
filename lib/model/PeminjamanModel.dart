@@ -1,22 +1,23 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:http/http.dart' as http;
 
 class Peminjaman {
   final String? id_peminjaman;
   final String? id_kendaraan;
   final String? id_user;
-  final String? tgl_peminjaman;
-  final String? jam_peminjaman;
+  final DateTime? tgl_peminjaman;
+  final DateTime? jam_peminjaman;
   final String? km_awal;
   final String? saldo_tol_awal;
-  final String? tgl_kembali;
-  final String? jam_kembali;
+  final DateTime? tgl_kembali;
+  final DateTime? jam_kembali;
   final String? km_akhir;
   final String? saldo_tol_akhir;
   final String? keperluan;
   final String? driver;
   final String? tujuan;
-  final String? bbm;
+  final String? hargabbm;
   final String? lampiran_tol;
   final String? lampiran_bbm;
   final String? total_km;
@@ -36,7 +37,7 @@ class Peminjaman {
     this.keperluan,
     this.driver,
     this.tujuan,
-    this.bbm,
+    this.hargabbm,
     this.lampiran_tol,
     this.lampiran_bbm,
     this.total_km,
@@ -58,10 +59,31 @@ class Peminjaman {
       keperluan: json['keperluan'],
       driver: json['driver'],
       tujuan: json['tujuan'],
-      bbm: json['bbm'],
+      hargabbm: json['hargabbm'],
       lampiran_tol: json['lampiran_tol'],
       lampiran_bbm: json['lampiran_bbm'],
       total_km: json['total_km'],
     );
   }
+  // Map<String, dynamic> toJson() => {
+  //       "id_kendaraan": id_kendaraan,
+  //       "id_user": id_user,
+  //       "tgl_peminjaman":
+  //           "${tgl_peminjaman!.year.toString().padLeft(4, '0')}-${tgl_peminjaman!.month.toString().padLeft(2, '0')}-${tgl_peminjaman!.day.toString().padLeft(2, '0')}",
+  //       "jam_peminjaman": jam_peminjaman,
+  //       "km_awal": km_awal,
+  //       "saldo_tol_awal": saldo_tol_awal,
+  //       "tgl_kembali":
+  //           "${tgl_kembali!.year.toString().padLeft(4, '0')}-${tgl_kembali!.month.toString().padLeft(2, '0')}-${tgl_kembali!.day.toString().padLeft(2, '0')}",
+  //       "jam_kembali": jam_kembali,
+  //       "km_akhir": km_akhir,
+  //       "saldo_tol_akhir": saldo_tol_akhir,
+  //       "keperluan": keperluan,
+  //       "driver": driver,
+  //       "tujuan": tujuan,
+  //       "hargabbm": harga_bbm,
+  //       "lampiran_tol": lampiran_tol,
+  //       "lampiran_bbm": lampiran_bbm,
+  //       "total_km": total_km,
+  //     };
 }

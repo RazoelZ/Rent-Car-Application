@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:rentvehicle_application/core/repository.dart';
+import 'package:rentvehicle_application/screen/home.dart';
 
 class StepperForm extends StatefulWidget {
   const StepperForm({super.key});
@@ -12,18 +13,20 @@ class StepperForm extends StatefulWidget {
 class _StepperFormState extends State<StepperForm> {
   int _index = 0;
 
+  PeminjamanRepository peminjamanRepository = PeminjamanRepository();
+
   List<GlobalKey<FormState>> _formKeys = [
-    GlobalKey<FormState>(),
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
   ];
 
-  TextEditingController _jeniskendaraanController = TextEditingController();
-  TextEditingController _tipekendaraanController = TextEditingController();
-  TextEditingController _nopolisiController = TextEditingController();
-  TextEditingController _kmawalController = TextEditingController();
+  TextEditingController _idkendaraan = TextEditingController();
+  TextEditingController _iduser = TextEditingController();
   TextEditingController _tanggalpinjamController = TextEditingController();
   TextEditingController _jampinjamController = TextEditingController();
+  TextEditingController _kmawalController = TextEditingController();
+  TextEditingController _saldoawalController = TextEditingController();
+  TextEditingController _tujuan = TextEditingController();
   TextEditingController _keperluanController = TextEditingController();
   TextEditingController _driverController = TextEditingController();
 
@@ -35,38 +38,6 @@ class _StepperFormState extends State<StepperForm> {
               key: _formKeys[0],
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                    controller: _jeniskendaraanController,
-                    decoration: InputDecoration(
-                        labelText: "Jenis Kendaraan",
-                        icon: Icon(Icons.car_crash_outlined)),
-                  ),
-                  TextFormField(
-                    controller: _tipekendaraanController,
-                    decoration: InputDecoration(
-                        labelText: "Tipe Kendaraan",
-                        icon: Icon(Icons.car_repair_outlined)),
-                  ),
-                  TextFormField(
-                    controller: _nopolisiController,
-                    decoration: InputDecoration(
-                        labelText: "Nomor Polisi", icon: Icon(Icons.numbers)),
-                  ),
-                ],
-              ),
-            )),
-        Step(
-            isActive: _index >= 1 ? true : false,
-            title: const Text('Langkah 2'),
-            content: Form(
-              key: _formKeys[1],
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    controller: _kmawalController,
-                    decoration: InputDecoration(
-                        labelText: "KM Awal", icon: Icon(Icons.speed)),
-                  ),
                   TextFormField(
                     controller: _tanggalpinjamController,
                     decoration: InputDecoration(
@@ -93,16 +64,80 @@ class _StepperFormState extends State<StepperForm> {
                       }
                     },
                   ),
+                  TextFormField(
+                    controller: _kmawalController,
+                    decoration: InputDecoration(
+                        labelText: "KM Awal", icon: Icon(Icons.speed)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan Tanggal Pinjam!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _saldoawalController,
+                    decoration: InputDecoration(
+                        labelText: "Saldo Awal", icon: Icon(Icons.money)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan Tanggal Pinjam!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
                 ],
               ),
             )),
         Step(
-            isActive: _index >= 2 ? true : false,
-            title: const Text('Langkah 3'),
+            isActive: _index >= 1 ? true : false,
+            title: const Text('Langkah 2'),
             content: Form(
-              key: _formKeys[2],
+              key: _formKeys[1],
               child: Column(
                 children: <Widget>[
+                  TextFormField(
+                    controller: _iduser,
+                    inputFormatters: [],
+                    decoration: InputDecoration(
+                        labelText: "Id User",
+                        icon: Icon(Icons.indeterminate_check_box)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan id user Anda!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _idkendaraan,
+                    decoration: InputDecoration(
+                        labelText: "Id Kendaraan",
+                        icon: Icon(Icons.woman_rounded)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan Id Kendaraan Anda!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _tujuan,
+                    decoration: InputDecoration(
+                        labelText: "Kota Tujuan",
+                        icon: Icon(Icons.location_on_outlined)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan Kota Tujuan Anda!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
                   TextFormField(
                     controller: _keperluanController,
                     decoration: InputDecoration(
@@ -121,19 +156,44 @@ class _StepperFormState extends State<StepperForm> {
                     controller: _driverController,
                     decoration: InputDecoration(
                         labelText: "Driver", icon: Icon(Icons.person)),
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        labelText: "Kota Tujuan",
-                        icon: Icon(Icons.location_on_outlined)),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Masukan Kota Tujuan Anda!";
+                        return "Masukan Driver anda!";
                       } else {
                         return null;
                       }
                     },
                   ),
+                  Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            bool response =
+                                await peminjamanRepository.postPeminjamanData(
+                                    _iduser.text,
+                                    _idkendaraan.text,
+                                    _tanggalpinjamController.text,
+                                    _jampinjamController.text,
+                                    _kmawalController.text,
+                                    _saldoawalController.text,
+                                    _tujuan.text,
+                                    _keperluanController.text,
+                                    _driverController.text);
+                            if (response) {
+                              SnackBar(
+                                content: Text("Berhasil"),
+                              );
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()));
+                            } else {
+                              SnackBar(
+                                content: Text("Gagal"),
+                              );
+                            }
+                          },
+                          child: Text("Submit")))
                 ],
               ),
             )),
@@ -157,7 +217,7 @@ class _StepperFormState extends State<StepperForm> {
                   Container(
                     child: TextButton(
                       onPressed: onStepCancel,
-                      child: const Text('Kembali'),
+                      child: const Text('Sebelumnya'),
                     ),
                   ),
                 ],

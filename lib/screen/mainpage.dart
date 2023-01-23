@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentvehicle_application/screen/StepperForm.dart';
 import 'package:rentvehicle_application/screen/form.dart';
 import 'package:rentvehicle_application/view/customlist.dart';
 import 'package:rentvehicle_application/core/repository.dart';
@@ -75,7 +76,7 @@ class _MainPageState extends State<MainPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const FormPage()));
+                            builder: (context) => const StepperForm()));
                   },
                   child: ListView.separated(
                     itemBuilder: (context, index) {
