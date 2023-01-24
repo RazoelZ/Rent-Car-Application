@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:rentvehicle_application/core/repository.dart';
+import 'package:rentvehicle_application/screen/home.dart';
 
 class PengembalianPage extends StatefulWidget {
   const PengembalianPage({super.key});
@@ -9,6 +12,21 @@ class PengembalianPage extends StatefulWidget {
 
 class _PengembalianPageState extends State<PengembalianPage> {
   int _index = 0;
+  PeminjamanRepository peminjamanRepository = PeminjamanRepository();
+
+  DateTime? _selectedDate;
+
+  TextEditingController _id = TextEditingController();
+  TextEditingController _iduser = TextEditingController();
+  TextEditingController _idkendaraan = TextEditingController();
+  TextEditingController _tanggalkembaliController = TextEditingController();
+  TextEditingController _jamkembaliController = TextEditingController();
+  TextEditingController _saldotolakhir = TextEditingController();
+  TextEditingController _kmakhir = TextEditingController();
+  TextEditingController _hargabbm = TextEditingController();
+  TextEditingController _lampirantol = TextEditingController();
+  TextEditingController _lampiranbbm = TextEditingController();
+
   List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
@@ -22,28 +40,114 @@ class _PengembalianPageState extends State<PengembalianPage> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    controller: _id,
+                    inputFormatters: [],
+                    decoration: InputDecoration(
+                        labelText: "Id",
+                        icon: Icon(Icons.indeterminate_check_box)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan id user Anda!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _iduser,
+                    inputFormatters: [],
+                    decoration: InputDecoration(
+                        labelText: "Id User",
+                        icon: Icon(Icons.indeterminate_check_box)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan id user Anda!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _idkendaraan,
+                    decoration: InputDecoration(
+                        labelText: "Id Kendaraan",
+                        icon: Icon(Icons.woman_rounded)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan Id Kendaraan Anda!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _tanggalkembaliController,
                     decoration: InputDecoration(
                         labelText: "Tanggal Kembali",
                         icon: Icon(Icons.calendar_month)),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Masukan Tanggal Kembali!";
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+                    readOnly: true,
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2015),
+                        lastDate: DateTime(2101),
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          _tanggalkembaliController.text =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                        });
+                      }
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Masukan Tanggal Kembali!";
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                   TextFormField(
                     decoration: InputDecoration(
                         labelText: "Jam Kembali",
                         icon: Icon(Icons.punch_clock_outlined)),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Masukan Jam Kembali!";
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+                    controller: _jamkembaliController,
+                    readOnly: true,
+                    onTap: () async {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        initialTime: TimeOfDay.now(),
+                        context: context,
+                      );
+                      if (pickedTime != null) {
+                        setState(() {
+                          _jamkembaliController.text =
+                              pickedTime.format(context);
+                        });
+                      }
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Masukan Jam Kembali!";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _kmakhir,
+                    decoration: InputDecoration(
+                      suffixText: "KM",
+                      labelText: "KM Akhir",
+                      icon: Icon(Icons.speed_rounded),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Masukan KM Akhir!";
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                 ],
               ),
@@ -56,8 +160,10 @@ class _PengembalianPageState extends State<PengembalianPage> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    controller: _saldotolakhir,
                     decoration: InputDecoration(
-                      labelText: "Saldo Tol",
+                      labelText: "Saldo Tol Akhir",
+                      prefixText: "Rp. ",
                       icon: Icon(Icons.money),
                     ),
                     validator: (value) {
@@ -69,8 +175,10 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     },
                   ),
                   TextFormField(
+                    controller: _hargabbm,
                     decoration: InputDecoration(
-                      labelText: "Saldo Bensin",
+                      prefixText: "Rp. ",
+                      labelText: "Saldo bensin yang digunakan",
                       icon: Icon(Icons.attach_money_outlined),
                     ),
                     validator: (value) {
@@ -82,19 +190,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     },
                   ),
                   TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Total KM",
-                      icon: Icon(Icons.attach_money_outlined),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Masukan Total KM!";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  TextFormField(
+                    controller: _lampirantol,
                     decoration: InputDecoration(
                       labelText: "Lampiran Saldo Tol",
                       icon: Icon(Icons.text_snippet_outlined),
@@ -108,6 +204,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     },
                   ),
                   TextFormField(
+                    controller: _lampiranbbm,
                     decoration: InputDecoration(
                       labelText: "Lampiran Saldo Bensin",
                       icon: Icon(Icons.text_snippet_outlined),
@@ -123,7 +220,32 @@ class _PengembalianPageState extends State<PengembalianPage> {
                   Container(
                       margin: EdgeInsets.only(top: 10),
                       child: ElevatedButton(
-                          onPressed: () {}, child: Text("Submit")))
+                          onPressed: () async {
+                            bool response =
+                                await peminjamanRepository.putPeminjamanData(
+                                    _id.text,
+                                    _tanggalkembaliController.text,
+                                    _jamkembaliController.text,
+                                    _kmakhir.text,
+                                    _saldotolakhir.text,
+                                    _hargabbm.text,
+                                    _lampirantol.text,
+                                    _lampiranbbm.text);
+                            if (response) {
+                              SnackBar(
+                                content: Text("Berhasil"),
+                              );
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => HomePage()));
+                            } else {
+                              SnackBar(
+                                content: Text("Gagal"),
+                              );
+                            }
+                          },
+                          child: Text("Submit")))
                 ],
               ),
             )),
@@ -132,7 +254,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Pengisian Form Peminjaman'),
+          title: const Text('Pengisian Form Pengembalian'),
         ),
         body: Stepper(
             controlsBuilder: (context, _) {
@@ -154,7 +276,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
               );
             },
             currentStep: _index,
-            type: StepperType.horizontal,
+            // type: StepperType.horizontal,
             steps: steps()));
   }
 
@@ -180,5 +302,4 @@ class _PengembalianPageState extends State<PengembalianPage> {
   }
 }
 
-// 
-              
+//

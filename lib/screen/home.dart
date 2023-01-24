@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rentvehicle_application/screen/profile.dart';
 import 'package:rentvehicle_application/screen/mainpage.dart';
-import 'package:rentvehicle_application/screen/peminjaman.dart';
+import 'package:rentvehicle_application/screen/historypeminjaman.dart';
 import 'package:rentvehicle_application/screen/scan.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,7 +14,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
-  final callPage = [MainPage(), RentPage(), ScanPage(), ProfilePage()];
+  final callPage = [
+    MainPage(),
+    HistoryPeminjamanPage(),
+    ScanPage(),
+    ProfilePage()
+  ];
 
   @override
   Widget build(BuildContext context) {

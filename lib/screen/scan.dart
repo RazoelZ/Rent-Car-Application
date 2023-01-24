@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:rentvehicle_application/screen/pengembalian.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -17,12 +18,25 @@ class _ScanPageState extends State<ScanPage> {
         title: const Text('Scan'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            String? cameraScanResult = await scanner.scan();
-            print(cameraScanResult);
-          },
-          child: const Text('Scan'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () async {
+                String? cameraScanResult = await scanner.scan();
+                print(cameraScanResult);
+              },
+              child: const Text('Scan'),
+            ),
+            ElevatedButton(
+                onPressed: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PengembalianPage()),
+                  );
+                }),
+                child: Text('Pengembalian'))
+          ],
         ),
       ),
     );

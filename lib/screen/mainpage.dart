@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/screen/StepperForm.dart';
+import 'package:rentvehicle_application/screen/Peminjaman.dart';
 import 'package:rentvehicle_application/screen/form.dart';
 import 'package:rentvehicle_application/view/customlist.dart';
 import 'package:rentvehicle_application/core/repository.dart';
@@ -76,12 +76,13 @@ class _MainPageState extends State<MainPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const StepperForm()));
+                            builder: (context) => const PeminjamanPage()));
                   },
                   child: ListView.separated(
                     itemBuilder: (context, index) {
                       return ListTile(
-                        leading: const Icon(Icons.directions_car),
+                        leading:
+                            Image(image: AssetImage("assets/images/logo.png")),
                         title: Text((mainKendaraan != null)
                             ? mainKendaraan[index].tipe_kendaraan.toString()
                             : "Loading..."),
