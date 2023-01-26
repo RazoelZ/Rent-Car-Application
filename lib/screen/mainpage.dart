@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rentvehicle_application/screen/Peminjaman.dart';
-import 'package:rentvehicle_application/screen/form.dart';
-import 'package:rentvehicle_application/view/customlist.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 
@@ -71,49 +69,50 @@ class _MainPageState extends State<MainPage> {
             child: SizedBox(
               height: 200.0,
               child: Container(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PeminjamanPage()));
+                margin: EdgeInsets.only(top: 10),
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PeminjamanPage(),
+                          ),
+                        );
+                      },
+                      leading:
+                          Image(image: AssetImage("assets/images/logo.png")),
+                      title: Text((mainKendaraan != null)
+                          ? mainKendaraan[index].tipe_kendaraan.toString()
+                          : "Loading..."),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text((mainKendaraan != null)
+                              ? "Lokasi : " +
+                                  mainKendaraan[index]
+                                      .nama_departemen
+                                      .toString()
+                              : "Loading..."),
+                          Text((mainKendaraan != null)
+                              ? "Jenis_kendaraan : " +
+                                  mainKendaraan[index]
+                                      .jenis_kendaraan
+                                      .toString()
+                              : "Loading..."),
+                        ],
+                      ),
+                      trailing: Text((mainKendaraan != null)
+                          ? "Plat nomor : " +
+                              mainKendaraan[index].nomor_polisi.toString()
+                          : "Loading..."),
+                    );
                   },
-                  child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading:
-                            Image(image: AssetImage("assets/images/logo.png")),
-                        title: Text((mainKendaraan != null)
-                            ? mainKendaraan[index].tipe_kendaraan.toString()
-                            : "Loading..."),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text((mainKendaraan != null)
-                                ? "Lokasi : " +
-                                    mainKendaraan[index]
-                                        .nama_departemen
-                                        .toString()
-                                : "Loading..."),
-                            Text((mainKendaraan != null)
-                                ? "Jenis_kendaraan : " +
-                                    mainKendaraan[index]
-                                        .jenis_kendaraan
-                                        .toString()
-                                : "Loading..."),
-                          ],
-                        ),
-                        trailing: Text((mainKendaraan != null)
-                            ? "Plat nomor : " +
-                                mainKendaraan[index].nomor_polisi.toString()
-                            : "Loading..."),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Divider(height: 10);
-                    },
-                    itemCount: mainKendaraan.length,
-                  ),
+                  separatorBuilder: (context, index) {
+                    return Divider(height: 10);
+                  },
+                  itemCount: mainKendaraan.length,
                 ),
               ),
             ),

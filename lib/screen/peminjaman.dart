@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/screen/home.dart';
+import 'package:http/http.dart' as http;
 
 class PeminjamanPage extends StatefulWidget {
   const PeminjamanPage({super.key});
@@ -44,15 +47,16 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                         icon: Icon(Icons.calendar_month)),
                     readOnly: true,
                     onTap: () async {
-                      final selectedDate = await showDatePicker(
+                      DateTime? pickedDate = await showDatePicker(
                         context: context,
-                        initialDate: _selectedDate ?? DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(2100),
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2015),
+                        lastDate: DateTime(2101),
                       );
-                      if (selectedDate != null) {
+                      if (pickedDate != null) {
                         setState(() {
-                          _selectedDate = selectedDate;
+                          _tanggalpinjamController.text =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
                         });
                       }
                     },
@@ -189,17 +193,38 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                       }
                     },
                   ),
-                  TextFormField(
-                    controller: _driverController,
-                    decoration: InputDecoration(
-                        labelText: "Driver", icon: Icon(Icons.person)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Masukan Driver anda!";
-                      } else {
-                        return null;
-                      }
-                    },
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: DropdownSearch<String>(
+                      mode: Mode.DIALOG,
+                      enabled: true,
+                      showSearchBox: true,
+                      onFind: (text) async {
+                        var response = await http.get(Uri.parse(
+                            'http://192.168.36.112/rent_car/public/driver'));
+                        if (response.statusCode != 200) {
+                          return [];
+                        }
+                        List data = json.decode(response.body);
+                        List<String> Listdrivernama = [];
+                        data.forEach((element) {
+                          Listdrivernama.add(element['nama']);
+                        });
+                        return Listdrivernama;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _driverController.text = value!;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Masukan Driver Anda!";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
                   ),
                   Container(
                       margin: EdgeInsets.only(top: 20),
@@ -213,9 +238,9 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                                     _jampinjamController.text,
                                     _kmawalController.text,
                                     _saldoawalController.text,
-                                    _tujuan.text,
                                     _keperluanController.text,
-                                    _driverController.text);
+                                    _driverController.text,
+                                    _tujuan.text);
                             if (response) {
                               SnackBar(
                                 content: Text("Berhasil"),

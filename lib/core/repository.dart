@@ -2,15 +2,18 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:rentvehicle_application/model/DriverModel.dart';
+import 'package:rentvehicle_application/model/HistoryModel.dart';
 import 'package:rentvehicle_application/model/KendaraanModel.dart';
 import 'package:rentvehicle_application/model/UserModel.dart';
 import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-class Repository {
-  final _baseUrl = "http://192.168.0.105/rent_car/public";
 
+final _baseUrl = "http://192.168.0.102/rent_car/public/";
+
+class Repository {
   Future getData() async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/kendaraan'));
@@ -31,8 +34,6 @@ class Repository {
 
 //Mengambil data dari table user 1
 class UserRepository {
-  final _baseUrl = "http://192.168.0.105/rent_car/public";
-
   Future getData() async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/user/1'));
@@ -51,8 +52,6 @@ class UserRepository {
 
 //Mengambil data dari table mainkendaran untuk page home
 class MainKendaraanRepository {
-  final _baseUrl = "http://192.168.0.105/rent_car/public";
-
   Future getData() async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/mainkendaraan'));
@@ -73,8 +72,6 @@ class MainKendaraanRepository {
 //Mengirim data ke table peminjaman
 
 class PeminjamanRepository {
-  final _baseUrl = "http://192.168.0.105/rent_car/public";
-
   Future getData() async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/peminjaman'));
@@ -144,9 +141,6 @@ class PeminjamanRepository {
         "lampiran_tol": lampiran_tol,
         "lampiran_bbm": lampiran_bbm,
       });
-      print(response.body);
-      print(jam_kembali);
-      print(tgl_kembali);
 
       if (response.statusCode == 200) {
         return true;
@@ -159,6 +153,41 @@ class PeminjamanRepository {
   }
 }
 
+class DriverRepository {
+  Future getDriverData() async {
+    try {
+      final response = await http.get(Uri.parse('$_baseUrl/driver'));
+      if (response.statusCode == 200) {
+        Iterable it = jsonDecode(response.body);
+        List<DriverModel> driverModel = List<DriverModel>.from(
+            it.map((e) => DriverModel.fromJson(e)).toList());
+        return driverModel;
+      } else {
+        Get.snackbar("Error", "Error");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+}
+
+class HistoryRepository {
+  Future getData() async {
+    try {
+      final response = await http.get(Uri.parse('$_baseUrl/historylog'));
+      if (response.statusCode == 200) {
+        Iterable it = jsonDecode(response.body);
+        List<HistoryLogModel> historyLogModel = List<HistoryLogModel>.from(
+            it.map((e) => HistoryLogModel.fromJson(e)).toList());
+        return historyLogModel;
+      } else {
+        Get.snackbar("Error", "Error");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+}
 // class buangan{
 
 //             String? tgl_kembali,

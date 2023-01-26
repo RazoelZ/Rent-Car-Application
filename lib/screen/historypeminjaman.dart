@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rentvehicle_application/core/repository.dart';
-import 'package:rentvehicle_application/model/KendaraanModel.dart';
+import 'package:rentvehicle_application/model/HistoryModel.dart';
+import 'package:rentvehicle_application/screen/peminjamandetail.dart';
 
 class HistoryPeminjamanPage extends StatefulWidget {
   const HistoryPeminjamanPage({super.key});
@@ -10,13 +11,13 @@ class HistoryPeminjamanPage extends StatefulWidget {
 }
 
 class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
-  List<KendaraanModel> kendaraanModel = [];
-  Repository repository = Repository();
+  List<HistoryLogModel> historylog = [];
+  HistoryRepository historyRepository = HistoryRepository();
 
   getData() async {
-    var data = await repository.getData();
+    var data = await historyRepository.getData();
     setState(() {
-      kendaraanModel = data;
+      historylog = data;
     });
   }
 
@@ -25,6 +26,10 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
     getData();
     super.initState();
   }
+
+  //make send data to detail page
+  // void sendData(HistoryLogModel historylog) {
+  //   Navigator.push(
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +41,29 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
       body: ListView.separated(
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text((kendaraanModel != null)
-                ? kendaraanModel[index].tipe_kendaraan.toString()
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPeminjamanPage(),
+                ),
+              );
+            },
+            title: Text((historylog != null)
+                ? historylog[index].tipeKendaraan.toString()
                 : "Loading..."),
-            subtitle: Text((kendaraanModel != null)
-                ? kendaraanModel[index].jenis_kendaraan.toString()
+            subtitle: Text((historylog != null)
+                ? historylog[index].driver.toString()
                 : "Loading..."),
-            trailing: Text((kendaraanModel != null)
-                ? kendaraanModel[index].nomor_polisi.toString()
+            trailing: Text((historylog != null)
+                ? historylog[index].tglPeminjaman.toString()
                 : "Loading..."),
           );
         },
         separatorBuilder: (context, index) {
           return Divider(height: 0.5);
         },
-        itemCount: kendaraanModel.length,
+        itemCount: historylog.length,
       ),
     );
   }

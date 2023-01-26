@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rentvehicle_application/core/repository.dart';
-import 'package:rentvehicle_application/screen/home.dart';
 
 class PengembalianPage extends StatefulWidget {
   const PengembalianPage({super.key});
@@ -14,11 +13,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
   int _index = 0;
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
 
-  DateTime? _selectedDate;
-
   TextEditingController _id = TextEditingController();
-  TextEditingController _iduser = TextEditingController();
-  TextEditingController _idkendaraan = TextEditingController();
   TextEditingController _tanggalkembaliController = TextEditingController();
   TextEditingController _jamkembaliController = TextEditingController();
   TextEditingController _saldotolakhir = TextEditingController();
@@ -48,33 +43,6 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Masukan id user Anda!";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  TextFormField(
-                    controller: _iduser,
-                    inputFormatters: [],
-                    decoration: InputDecoration(
-                        labelText: "Id User",
-                        icon: Icon(Icons.indeterminate_check_box)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Masukan id user Anda!";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  TextFormField(
-                    controller: _idkendaraan,
-                    decoration: InputDecoration(
-                        labelText: "Id Kendaraan",
-                        icon: Icon(Icons.woman_rounded)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Masukan Id Kendaraan Anda!";
                       } else {
                         return null;
                       }

@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:rentvehicle_application/core/api_client.dart';
-import 'package:get/get.dart' hide Response, FormData, MultipartFile;
-import 'package:http/http.dart' as http;
 import 'package:rentvehicle_application/screen/forgotpassword.dart';
 import 'package:rentvehicle_application/screen/home.dart';
 
@@ -82,6 +78,11 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                // WebViewPlus(
+                //     javascriptMode: JavascriptMode.unrestricted,
+                //     onWebViewCreated: (controller) {
+                //       controller.loadUrl("https://www.google.com");
+                //     })
               ],
             ),
           ),
