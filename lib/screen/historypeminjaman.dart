@@ -45,7 +45,23 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailPeminjamanPage(),
+                  builder: (context) => DetailPeminjamanPage(
+                    id: historylog[index].id.toString(),
+                    idKendaraan: historylog[index].idKendaraan.toString(),
+                    namaDepartemen: historylog[index].namaDepartemen.toString(),
+                    jeniskendaraan: historylog[index].jenisKendaraan.toString(),
+                    tipeKendaraan: historylog[index].tipeKendaraan.toString(),
+                    tglPeminjaman: historylog[index].tglPeminjaman.toString(),
+                    tglPengembalian: historylog[index].tglKembali.toString(),
+                    jamPeminjaman: historylog[index].jamPeminjaman.toString(),
+                    jamKembali: historylog[index].jamKembali.toString(),
+                    kmAwal: historylog[index].kmAwal.toString(),
+                    kmAkhir: historylog[index].kmAkhir.toString(),
+                    tujuan: historylog[index].tujuan.toString(),
+                    keperluan: historylog[index].keperluan.toString(),
+                    driver: historylog[index].driver.toString(),
+                    platNomor: historylog[index].nomorPolisi.toString(),
+                  ),
                 ),
               );
             },
@@ -56,7 +72,7 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
                 ? historylog[index].driver.toString()
                 : "Loading..."),
             trailing: Text((historylog != null)
-                ? historylog[index].tglPeminjaman.toString()
+                ? historylog[index].tglKembali.toString()
                 : "Loading..."),
           );
         },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rentvehicle_application/screen/Peminjaman.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
+import 'package:rentvehicle_application/screen/detailpeminjaman.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -77,7 +78,18 @@ class _MainPageState extends State<MainPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PeminjamanPage(),
+                            builder: (context) => DetailKendaraanPage(
+                              id_kendaraan: mainKendaraan[index].id_kendaraan,
+                              tipe_kendaraan:
+                                  mainKendaraan[index].tipe_kendaraan,
+                              nomor_polisi: mainKendaraan[index].nomor_polisi,
+                              nama_departemen:
+                                  mainKendaraan[index].nama_departemen,
+                              jenis_kendaraan:
+                                  mainKendaraan[index].jenis_kendaraan,
+                              km: mainKendaraan[index].km,
+                              gambar: mainKendaraan[index].gambar,
+                            ),
                           ),
                         );
                       },

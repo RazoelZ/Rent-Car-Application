@@ -7,6 +7,8 @@ class MainKendaraan {
   final String? nomor_polisi;
   final String? nama_departemen;
   final String? jenis_kendaraan;
+  final String? km;
+  final String? gambar;
 
   MainKendaraan({
     this.id_kendaraan,
@@ -14,6 +16,8 @@ class MainKendaraan {
     this.nomor_polisi,
     this.nama_departemen,
     this.jenis_kendaraan,
+    this.km,
+    this.gambar,
   });
 
   factory MainKendaraan.fromJson(Map<String, dynamic> json) {
@@ -23,6 +27,8 @@ class MainKendaraan {
       nomor_polisi: json['nomor_polisi'],
       nama_departemen: json['nama_departemen'],
       jenis_kendaraan: json['jenis_kendaraan'],
+      km: json['km'],
+      gambar: json['gambar'],
     );
   }
 }

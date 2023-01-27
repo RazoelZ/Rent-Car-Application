@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:rentvehicle_application/screen/foto.dart';
 import 'package:rentvehicle_application/screen/pengembalian.dart';
 
 class ScanPage extends StatefulWidget {
@@ -35,7 +36,15 @@ class _ScanPageState extends State<ScanPage> {
                     MaterialPageRoute(builder: (context) => PengembalianPage()),
                   );
                 }),
-                child: Text('Pengembalian'))
+                child: Text('Pengembalian')),
+            ElevatedButton(
+                onPressed: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => foto()),
+                  );
+                }),
+                child: Text("Ke foto yuk"))
           ],
         ),
       ),
