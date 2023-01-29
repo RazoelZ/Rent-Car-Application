@@ -1,6 +1,8 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rentvehicle_application/core/repository.dart';
+import 'package:rentvehicle_application/screen/home.dart';
 
 class PengembalianPage extends StatefulWidget {
   const PengembalianPage({super.key});
@@ -200,16 +202,23 @@ class _PengembalianPageState extends State<PengembalianPage> {
                                     _lampirantol.text,
                                     _lampiranbbm.text);
                             if (response) {
-                              SnackBar(
-                                content: Text("Berhasil"),
-                              );
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => HomePage()));
+                              CoolAlert.show(
+                                  context: context,
+                                  type: CoolAlertType.success,
+                                  text: "Peminjaman Anda Berhasil!",
+                                  confirmBtnText: "Selesai",
+                                  onConfirmBtnTap: (() {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage()));
+                                  }));
                             } else {
-                              SnackBar(
-                                content: Text("Gagal"),
+                              CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.error,
+                                text: "Pengembalian Anda gagal :(",
+                                confirmBtnText: "Kembali",
                               );
                             }
                           },

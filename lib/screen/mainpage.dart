@@ -39,33 +39,51 @@ class _MainPageState extends State<MainPage> {
           Container(
             margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: TextField(
+                onChanged: (value) {
+                  if (value.isEmpty) {
+                    setState(() {
+                      getData();
+                    });
+                  } else {
+                    setState(() {
+                      mainKendaraan = mainKendaraan
+                          .where((element) => element.tipe_kendaraan!
+                              .toLowerCase()
+                              .contains(value.toLowerCase()))
+                          .toList();
+                    });
+                  }
+                },
                 decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0))),
-              suffixIcon: Icon(Icons.search),
-              labelText: 'Cari Kendaraan',
-            )),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                  suffixIcon: Icon(Icons.search),
+                  labelText: 'Cari Kendaraan',
+                )),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Mobil'),
-                  ),
-                ),
-                Container(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Motor'),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(top: 10),
+          //   child: Row(
+          //     children: [
+          //       Container(
+          //         margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          //         child: ElevatedButton(
+          //           onPressed: () {},
+          //           child: const Text('Mobil'),
+          //         ),
+          //       ),
+
+          //       Container(
+          //         child: ElevatedButton(
+          //           onPressed: () {
+
+          //           },
+          //           child: const Text('Motor'),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Expanded(
             child: SizedBox(
               height: 200.0,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -103,6 +104,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                   ),
                   TextFormField(
                     controller: _kmawalController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: "KM Awal",
                         icon: Icon(Icons.speed),
@@ -117,6 +119,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                   ),
                   TextFormField(
                     controller: _saldoawalController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: "Saldo Awal",
                         icon: Icon(Icons.money),
@@ -194,9 +197,18 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     },
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 20),
                     child: DropdownSearch<String>(
-                      mode: Mode.DIALOG,
+                      dropdownSearchDecoration: InputDecoration(
+                        icon: Icon(Icons.person),
+                        labelText: "Driver",
+                      ),
+                      dropdownButtonBuilder: (context) {
+                        return Container(
+                          margin: EdgeInsets.only(right: 20),
+                          child: Icon(Icons.arrow_drop_down),
+                        );
+                      },
+                      mode: Mode.MENU,
                       enabled: true,
                       showSearchBox: true,
                       onFind: (text) async {
@@ -242,16 +254,23 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                                     _driverController.text,
                                     _tujuan.text);
                             if (response) {
-                              SnackBar(
-                                content: Text("Berhasil"),
-                              );
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                              CoolAlert.show(
+                                  context: context,
+                                  type: CoolAlertType.success,
+                                  text: "Peminjaman Anda Berhasil!",
+                                  confirmBtnText: "Selesai",
+                                  onConfirmBtnTap: (() {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage()));
+                                  }));
                             } else {
-                              SnackBar(
-                                content: Text("Gagal"),
+                              CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.error,
+                                text: "Peminjaman Anda gagal :(",
+                                confirmBtnText: "Kembali",
                               );
                             }
                           },

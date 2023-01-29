@@ -62,6 +62,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
+                  enabled: false,
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: "Tipe Kendaraan",
@@ -73,6 +74,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
+                  enabled: false,
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: "Jenis Kendaraan",
@@ -84,6 +86,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
+                  enabled: false,
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: "Nomor Polisi",
@@ -95,6 +98,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
+                  enabled: false,
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: "Lokasi",
@@ -109,6 +113,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                   children: <Widget>[
                     Expanded(
                       child: TextFormField(
+                        enabled: false,
                         readOnly: true,
                         decoration: InputDecoration(
                           labelText: "Tanggal Peminjaman",
@@ -122,12 +127,15 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        enabled: false,
                         readOnly: true,
                         decoration: InputDecoration(
                           labelText: "Tanggal Pengembalian",
                           border: OutlineInputBorder(),
                         ),
-                        initialValue: widget.tglPengembalian,
+                        initialValue: widget.tglPengembalian.isEmpty == true
+                            ? "Belom dikembalikan"
+                            : widget.tglPengembalian,
                       ),
                     ),
                   ],
@@ -139,6 +147,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                   children: <Widget>[
                     Expanded(
                       child: TextFormField(
+                        enabled: false,
                         readOnly: true,
                         decoration: InputDecoration(
                           labelText: "Jam Peminjaman",
@@ -152,6 +161,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        enabled: false,
                         readOnly: true,
                         decoration: InputDecoration(
                           labelText: "Jam Pengembalian",
@@ -169,6 +179,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                   children: <Widget>[
                     Expanded(
                       child: TextFormField(
+                        enabled: false,
                         readOnly: true,
                         decoration: InputDecoration(
                           labelText: "Km Awal",
@@ -182,6 +193,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        enabled: false,
                         readOnly: true,
                         decoration: InputDecoration(
                           labelText: "Km Akhir",
@@ -196,6 +208,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
+                  enabled: false,
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: "Driver",
@@ -207,6 +220,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
+                  enabled: false,
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: "Tujuan",
@@ -218,6 +232,7 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
+                  enabled: false,
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: "Keperluan",

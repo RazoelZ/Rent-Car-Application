@@ -37,8 +37,7 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
       body: Center(
         child: Container(
           margin: EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
             children: <Widget>[
               Container(
                 // child: Image.network(widget.gambar!),
@@ -52,6 +51,7 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
                   readOnly: true,
+                  enabled: false,
                   decoration: InputDecoration(
                     labelText: "Tipe Kendaraan",
                     border: OutlineInputBorder(),
@@ -63,6 +63,7 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
                   readOnly: true,
+                  enabled: false,
                   decoration: InputDecoration(
                     labelText: "Jenis Kendaraan",
                     border: OutlineInputBorder(),
@@ -74,6 +75,7 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
                   readOnly: true,
+                  enabled: false,
                   decoration: InputDecoration(
                     labelText: "Nomor Polisi",
                     border: OutlineInputBorder(),
@@ -85,6 +87,7 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
                   readOnly: true,
+                  enabled: false,
                   decoration: InputDecoration(
                     labelText: "Lokasi",
                     border: OutlineInputBorder(),
@@ -96,6 +99,7 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                 margin: EdgeInsets.only(bottom: 20),
                 child: TextFormField(
                   readOnly: true,
+                  enabled: false,
                   decoration: InputDecoration(
                     labelText: "Total Kilometer",
                     border: OutlineInputBorder(),
