@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/screen/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PeminjamanPage extends StatefulWidget {
   final String id_kendaraan;
@@ -19,28 +21,35 @@ class PeminjamanPage extends StatefulWidget {
 class _PeminjamanPageState extends State<PeminjamanPage> {
   @override
   void initState() {
-    _idkendaraan.text = widget.id_kendaraan;
     super.initState();
+    _idkendaraan.text = widget.id_kendaraan;
+    pref();
+  }
+
+  pref() async {
+    final prefs = await SharedPreferences.getInstance();
+    _iduser.text = prefs.getString("id_user")!;
   }
 
   int _index = 0;
 
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
 
-  List<GlobalKey<FormState>> _formKeys = [
+  final List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
   ];
   DateTime? _selectedDate;
-  TextEditingController _idkendaraan = TextEditingController();
-  TextEditingController _iduser = TextEditingController();
-  TextEditingController _tanggalpinjamController = TextEditingController();
-  TextEditingController _jampinjamController = TextEditingController();
-  TextEditingController _kmawalController = TextEditingController();
-  TextEditingController _saldoawalController = TextEditingController();
-  TextEditingController _tujuan = TextEditingController();
-  TextEditingController _keperluanController = TextEditingController();
-  TextEditingController _driverController = TextEditingController();
+  final TextEditingController _idkendaraan = TextEditingController();
+  final TextEditingController _iduser = TextEditingController();
+  final TextEditingController _tanggalpinjamController =
+      TextEditingController();
+  final TextEditingController _jampinjamController = TextEditingController();
+  final TextEditingController _kmawalController = TextEditingController();
+  final TextEditingController _saldoawalController = TextEditingController();
+  final TextEditingController _tujuan = TextEditingController();
+  final TextEditingController _keperluanController = TextEditingController();
+  final TextEditingController _driverController = TextEditingController();
 
   List<Step> steps() => [
         Step(
@@ -130,7 +139,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: "Saldo Awal",
-                        icon: Icon(Icons.money),
+                        icon: const Icon(Icons.money),
                         prefixText: "Rp. "),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -151,35 +160,8 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    controller: _iduser,
-                    inputFormatters: [],
-                    decoration: InputDecoration(
-                        labelText: "Id User",
-                        icon: Icon(Icons.indeterminate_check_box)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Masukan id user Anda!";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  // TextFormField(
-                  //   controller: _idkendaraan,
-                  //   decoration: InputDecoration(
-                  //       labelText: "Id Kendaraan",
-                  //       icon: Icon(Icons.woman_rounded)),
-                  //   validator: (value) {
-                  //     if (value == null || value.isEmpty) {
-                  //       return "Masukan Id Kendaraan Anda!";
-                  //     } else {
-                  //       return null;
-                  //     }
-                  //   },
-                  // ),
-                  TextFormField(
                     controller: _tujuan,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         labelText: "Kota Tujuan",
                         icon: Icon(Icons.location_on_outlined)),
                     validator: (value) {
@@ -192,7 +174,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                   ),
                   TextFormField(
                     controller: _keperluanController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Keperluan",
                       icon: Icon(Icons.text_fields),
                     ),
@@ -204,58 +186,50 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                       }
                     },
                   ),
-                  Container(
-                    child: DropdownSearch<String>(
-                      dropdownSearchDecoration: InputDecoration(
-                        icon: Icon(Icons.person),
-                        labelText: "Driver",
-                      ),
-                      dropdownButtonBuilder: (context) {
-                        return Container(
-                          margin: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.arrow_drop_down),
-                        );
-                      },
-                      mode: Mode.MENU,
-                      enabled: true,
-                      showSearchBox: true,
-                      onFind: (text) async {
-                        var response = await http.get(Uri.parse(
-                            'http://192.168.110.241/rent_car/public/driver'));
-                        if (response.statusCode != 200) {
-                          return [];
-                        }
-                        List data = json.decode(response.body);
-                        List<String> Listdrivernama = [];
-                        data.forEach((element) {
-                          Listdrivernama.add(element['nama']);
-                        });
-                        return Listdrivernama;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          _driverController.text = value!;
-                        });
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Masukan Driver Anda!";
-                        } else {
-                          return null;
-                        }
-                      },
+                  DropdownSearch<String>(
+                    dropdownSearchDecoration: InputDecoration(
+                      icon: Icon(Icons.person),
+                      labelText: "Driver",
                     ),
+                    dropdownButtonBuilder: (context) {
+                      return Container(
+                        margin: EdgeInsets.only(right: 20),
+                        child: Icon(Icons.arrow_drop_down),
+                      );
+                    },
+                    mode: Mode.MENU,
+                    enabled: true,
+                    showSearchBox: true,
+                    onFind: (text) async {
+                      var response = await http.get(Uri.parse(
+                          'http://192.168.110.241/rent_car/public/driver'));
+                      if (response.statusCode != 200) {
+                        return [];
+                      }
+                      List data = json.decode(response.body);
+                      List<String> Listdrivernama = [];
+                      data.forEach((element) {
+                        Listdrivernama.add(element['nama']);
+                      });
+                      return Listdrivernama;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _driverController.text = value!;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Masukan Driver Anda!";
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                   Container(
                       margin: EdgeInsets.only(top: 20),
                       child: ElevatedButton(
                           onPressed: () async {
-                            if (_formKeys[1].currentState!.validate()) {
-                              setState(() {
-                                _index = 2;
-                              });
-                              return;
-                            }
                             bool response =
                                 await peminjamanRepository.postPeminjamanData(
                                     _iduser.text,

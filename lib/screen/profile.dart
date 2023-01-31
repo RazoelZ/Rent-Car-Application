@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/model/UserModel.dart';
-import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,28 +10,28 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  User user = User();
-  UserRepository repository = UserRepository();
+  final TextEditingController _username = TextEditingController();
+  final TextEditingController _nama = TextEditingController();
 
-  getData() async {
-    var data = await repository.getData();
+  pref() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      user = data;
+      _username.text = prefs.getString("username")!;
+      _nama.text = prefs.getString("nama")!;
     });
   }
 
   @override
   void initState() {
-    getData();
     super.initState();
+    pref();
   }
 
   _logOut() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool("isLogin", false);
-    Navigator.push(context, MaterialPageRoute(builder: ((context) {
-      return LoginPage();
-    })));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
   @override
@@ -53,24 +51,18 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Container(
               margin: EdgeInsets.only(top: 10),
-              child: Text((user != null) ? user.nama.toString() : "Loading...",
-                  style: TextStyle(fontSize: 15)),
+              child: Text(_nama.text, style: TextStyle(fontSize: 20)),
             ),
             Container(
               margin: EdgeInsets.only(top: 10),
-              child: Text(
-                  (user != null) ? user.username.toString() : "Loading...",
-                  style: TextStyle(fontSize: 15)),
+              child: Text(_username.text, style: TextStyle(fontSize: 20)),
             ),
             Container(
               margin: EdgeInsets.only(top: 100),
               child: ElevatedButton(
                 child: Text("Logout"),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) {
-                    return LoginPage();
-                  })));
+                  _logOut();
                 },
               ),
             )

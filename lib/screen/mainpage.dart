@@ -119,22 +119,15 @@ class _MainPageState extends State<MainPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text((mainKendaraan != null)
-                              ? "Lokasi : " +
-                                  mainKendaraan[index]
-                                      .nama_departemen
-                                      .toString()
+                              ? "Lokasi : ${mainKendaraan[index].nama_departemen}"
                               : "Loading..."),
                           Text((mainKendaraan != null)
-                              ? "Jenis_kendaraan : " +
-                                  mainKendaraan[index]
-                                      .jenis_kendaraan
-                                      .toString()
+                              ? "Jenis_kendaraan : ${mainKendaraan[index].jenis_kendaraan}"
                               : "Loading..."),
                         ],
                       ),
                       trailing: Text((mainKendaraan != null)
-                          ? "Plat nomor : " +
-                              mainKendaraan[index].nomor_polisi.toString()
+                          ? "Plat nomor : ${mainKendaraan[index].nomor_polisi}"
                           : "Loading..."),
                     );
                   },

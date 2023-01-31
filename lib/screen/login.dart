@@ -26,14 +26,16 @@ class _LoginPageState extends State<LoginPage> {
       visible = true;
     });
     final prefs = await SharedPreferences.getInstance();
-    var params = "?username=" +
-        usernameController.text +
-        "&password=" +
-        passwordController.text;
+
+    var params =
+        "?username=${usernameController.text}&password=${passwordController.text}";
     try {
       var res = await http.get(Uri.parse(sUrl + params));
       if (res.statusCode == 200) {
         var response = json.decode(res.body);
+        prefs.setString("id_user", response['data']['id_user']);
+        prefs.setString("username", response['data']['username']);
+        prefs.setString("nama", response['data']['nama']);
         prefs.setBool("isLogin", true);
         setState(() {
           visible = false;
@@ -85,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextFormField(
-                  controller: usernameController,
+                  controller: usernameController..text = 'bima@gmail.com',
                   decoration: InputDecoration(
                       labelText: "username",
                       icon: Icon(Icons.person_outline),
@@ -99,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 TextFormField(
-                  controller: passwordController,
+                  controller: passwordController..text = '123',
                   obscureText: _obsecuretext,
                   decoration: InputDecoration(
                       labelText: "Password",
@@ -122,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                 ),
-                Container(
+                SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                         onPressed: (() {

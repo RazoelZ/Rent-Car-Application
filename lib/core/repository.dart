@@ -112,7 +112,6 @@ class PeminjamanRepository {
         "driver": driver,
         "tujuan": tujuan,
       });
-      print(tgl_peminjaman);
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -132,7 +131,7 @@ class PeminjamanRepository {
       String lampiran_bbm) async {
     try {
       final response =
-          await http.put(Uri.parse(_baseUrl + '/peminjaman/$id'), body: {
+          await http.put(Uri.parse('$_baseUrl/peminjaman/$id'), body: {
         "tgl_kembali": tgl_kembali,
         "jam_kembali": jam_kembali,
         "km_akhir": km_akhir.toString(),
@@ -188,21 +187,3 @@ class HistoryRepository {
     }
   }
 }
-// class buangan{
-
-//             String? tgl_kembali,
-//       String? jam_kembali,
-//             int? km_akhir,
-//       String? saldo_tol_akhir,
-//             String? bbm,
-//       String? lampiran_tol,
-//       String? lampiran_bbm,
-//       int? total_km
-// }
-
-// "tgl_peminjaman":
-//             "${tgl_peminjaman.year.toString().padLeft(4, '0')}-${tgl_peminjaman.month.toString().padLeft(2, '0')}-${tgl_peminjaman.day.toString().padLeft(2, '0')}",
-//         "jam_peminjaman":
-//             "${jam_peminjaman.hour.toString().padLeft(4, '0')}-${jam_peminjaman.minute.toString().padLeft(2, '0')}-${jam_peminjaman.second.toString().padLeft(2, '0')}",
-
-      

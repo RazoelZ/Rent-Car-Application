@@ -15,14 +15,15 @@ class _PengembalianPageState extends State<PengembalianPage> {
   int _index = 0;
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
 
-  TextEditingController _id = TextEditingController();
-  TextEditingController _tanggalkembaliController = TextEditingController();
-  TextEditingController _jamkembaliController = TextEditingController();
-  TextEditingController _saldotolakhir = TextEditingController();
-  TextEditingController _kmakhir = TextEditingController();
-  TextEditingController _hargabbm = TextEditingController();
-  TextEditingController _lampirantol = TextEditingController();
-  TextEditingController _lampiranbbm = TextEditingController();
+  final TextEditingController _id = TextEditingController();
+  final TextEditingController _tanggalkembaliController =
+      TextEditingController();
+  final TextEditingController _jamkembaliController = TextEditingController();
+  final TextEditingController _saldotolakhir = TextEditingController();
+  final TextEditingController _kmakhir = TextEditingController();
+  final TextEditingController _hargabbm = TextEditingController();
+  final TextEditingController _lampirantol = TextEditingController();
+  final TextEditingController _lampiranbbm = TextEditingController();
 
   List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
@@ -237,17 +238,13 @@ class _PengembalianPageState extends State<PengembalianPage> {
             controlsBuilder: (context, _) {
               return Row(
                 children: <Widget>[
-                  Container(
-                    child: TextButton(
-                      onPressed: onStepContinue,
-                      child: const Text('Selanjutnya'),
-                    ),
+                  TextButton(
+                    onPressed: onStepContinue,
+                    child: const Text('Selanjutnya'),
                   ),
-                  Container(
-                    child: TextButton(
-                      onPressed: onStepCancel,
-                      child: const Text('Sebelumnya'),
-                    ),
+                  TextButton(
+                    onPressed: onStepCancel,
+                    child: const Text('Sebelumnya'),
                   ),
                 ],
               );

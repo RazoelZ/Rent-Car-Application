@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:rentvehicle_application/screen/Peminjaman.dart';
 
 class DetailKendaraanPage extends StatefulWidget {

@@ -51,13 +51,10 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
           margin: EdgeInsets.all(15),
           child: ListView(
             children: <Widget>[
-              Container(
-                // child: Image.network(widget.gambar!),
-                child: Image(
-                  image: AssetImage("assets/images/logo.png"),
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width / 1.5,
-                ),
+              Image(
+                image: AssetImage("assets/images/logo.png"),
+                height: MediaQuery.of(context).size.height / 3,
+                width: MediaQuery.of(context).size.width / 1.5,
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 20),

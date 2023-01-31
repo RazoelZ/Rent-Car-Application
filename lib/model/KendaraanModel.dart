@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 class KendaraanModel {
   final String? id_kendaraan;
   final String? tipe_kendaraan;

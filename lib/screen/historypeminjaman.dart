@@ -23,13 +23,9 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
 
   @override
   void initState() {
-    getData();
     super.initState();
+    getData();
   }
-
-  //make send data to detail page
-  // void sendData(HistoryLogModel historylog) {
-  //   Navigator.push(
 
   @override
   Widget build(BuildContext context) {
@@ -85,5 +81,3 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
     );
   }
 }
-
-// kendaraanModel[index].jenis_kendaraan.toString()
