@@ -8,13 +8,21 @@ import 'package:rentvehicle_application/screen/home.dart';
 import 'package:http/http.dart' as http;
 
 class PeminjamanPage extends StatefulWidget {
-  const PeminjamanPage({super.key});
+  final String id_kendaraan;
 
+  const PeminjamanPage({Key? key, required this.id_kendaraan})
+      : super(key: key);
   @override
   State<PeminjamanPage> createState() => _PeminjamanPageState();
 }
 
 class _PeminjamanPageState extends State<PeminjamanPage> {
+  @override
+  void initState() {
+    _idkendaraan.text = widget.id_kendaraan;
+    super.initState();
+  }
+
   int _index = 0;
 
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
@@ -156,19 +164,19 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                       }
                     },
                   ),
-                  TextFormField(
-                    controller: _idkendaraan,
-                    decoration: InputDecoration(
-                        labelText: "Id Kendaraan",
-                        icon: Icon(Icons.woman_rounded)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Masukan Id Kendaraan Anda!";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
+                  // TextFormField(
+                  //   controller: _idkendaraan,
+                  //   decoration: InputDecoration(
+                  //       labelText: "Id Kendaraan",
+                  //       icon: Icon(Icons.woman_rounded)),
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return "Masukan Id Kendaraan Anda!";
+                  //     } else {
+                  //       return null;
+                  //     }
+                  //   },
+                  // ),
                   TextFormField(
                     controller: _tujuan,
                     decoration: InputDecoration(
@@ -242,6 +250,12 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                       margin: EdgeInsets.only(top: 20),
                       child: ElevatedButton(
                           onPressed: () async {
+                            if (_formKeys[1].currentState!.validate()) {
+                              setState(() {
+                                _index = 2;
+                              });
+                              return;
+                            }
                             bool response =
                                 await peminjamanRepository.postPeminjamanData(
                                     _iduser.text,

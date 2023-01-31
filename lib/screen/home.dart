@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:rentvehicle_application/screen/login.dart';
 import 'package:rentvehicle_application/screen/profile.dart';
 import 'package:rentvehicle_application/screen/mainpage.dart';
 import 'package:rentvehicle_application/screen/historypeminjaman.dart';
 import 'package:rentvehicle_application/screen/scan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,6 +24,19 @@ class _HomePageState extends State<HomePage> {
     ScanPage(),
     ProfilePage()
   ];
+
+  startLaunching() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool? isLogin = prefs.getBool("isLogin") ?? false;
+    var duration = const Duration(seconds: 3);
+    return Timer(duration, () {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) {
+          return isLogin ? HomePage() : LoginPage();
+        },
+      ));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

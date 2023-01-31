@@ -115,14 +115,8 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => PeminjamanPage(
-                            // id_kendaraan: widget.id_kendaraan,
-                            // tipe_kendaraan: widget.tipe_kendaraan,
-                            // nomor_polisi: widget.nomor_polisi,
-                            // nama_departemen: widget.nama_departemen,
-                            // jenis_kendaraan: widget.jenis_kendaraan,
-                            // km: widget.km,
-                            // gambar: widget.gambar,
-                            ),
+                          id_kendaraan: widget.id_kendaraan!,
+                        ),
                       ),
                     );
                   },

@@ -69,10 +69,11 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
                 ? historylog[index].tipeKendaraan.toString()
                 : "Loading..."),
             subtitle: Text((historylog != null)
-                ? historylog[index].driver.toString()
+                ? "Driver : " + historylog[index].driver.toString()
                 : "Loading..."),
             trailing: Text((historylog != null)
-                ? historylog[index].tglKembali.toString()
+                ? "Tanggal Kembali : \n" +
+                    historylog[index].tglKembali.toString()
                 : "Loading..."),
           );
         },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rentvehicle_application/model/UserModel.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/screen/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -25,6 +26,14 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     getData();
     super.initState();
+  }
+
+  _logOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isLogin", false);
+    Navigator.push(context, MaterialPageRoute(builder: ((context) {
+      return LoginPage();
+    })));
   }
 
   @override
