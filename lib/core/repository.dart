@@ -11,7 +11,7 @@ import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
 
-final _baseUrl = "http://192.168.110.241/rent_car/public/";
+final _baseUrl = "http://192.168.0.107/rent_car/public/";
 
 class Repository {
   Future getData() async {
@@ -112,7 +112,9 @@ class PeminjamanRepository {
         "driver": driver,
         "tujuan": tujuan,
       });
-      if (response.statusCode == 200) {
+      Map<String, dynamic> jsonMap = jsonDecode(response.body);
+      int status = jsonMap['status'];
+      if (status == 200) {
         return true;
       } else {
         return false;

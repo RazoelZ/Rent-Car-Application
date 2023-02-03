@@ -1,6 +1,5 @@
 class HistoryLogModel {
-  String? id;
-  String? idUser;
+  String? id_user;
   String? idKendaraan;
   String? namaDepartemen;
   String? tipeKendaraan;
@@ -20,11 +19,10 @@ class HistoryLogModel {
   String? hargabbm;
   String? lampiranTol;
   String? lampiranBbm;
-  int? totalKm;
+  String? totalKm;
 
   HistoryLogModel({
-    this.id,
-    this.idUser,
+    this.id_user,
     this.idKendaraan,
     this.namaDepartemen,
     this.tipeKendaraan,
@@ -49,7 +47,7 @@ class HistoryLogModel {
 
   factory HistoryLogModel.fromJson(Map<String, dynamic> json) =>
       HistoryLogModel(
-        idUser: json["id_user"],
+        id_user: json["id_user"],
         idKendaraan: json["id_kendaraan"],
         namaDepartemen: json["nama_departemen"],
         tipeKendaraan: json["tipe_kendaraan"],

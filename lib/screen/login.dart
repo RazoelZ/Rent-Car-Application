@@ -18,8 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   bool _obsecuretext = true;
   bool visible = false;
-  final String sUrl =
-      "http://192.168.110.241/rent_car/public/UserAuthentication";
+  final String sUrl = "http://192.168.0.107/rent_car/public/UserAuthentication";
 
   _cekLogin() async {
     setState(() {

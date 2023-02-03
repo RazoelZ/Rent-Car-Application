@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/HistoryModel.dart';
 import 'package:rentvehicle_application/screen/peminjamandetail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryPeminjamanPage extends StatefulWidget {
   const HistoryPeminjamanPage({super.key});
@@ -14,16 +15,28 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
   List<HistoryLogModel> historylog = [];
   HistoryRepository historyRepository = HistoryRepository();
 
+  String? _iduser;
+
+  pref() async {
+    final prefs = await SharedPreferences.getInstance();
+    _iduser = prefs.getString("id_user")!;
+  }
+
   getData() async {
     var data = await historyRepository.getData();
     setState(() {
-      historylog = data;
+      data.forEach((element) {
+        if (element.id_user.toString() == _iduser) {
+          historylog.add(element);
+        }
+      });
     });
   }
 
   @override
   void initState() {
     super.initState();
+    pref();
     getData();
   }
 
@@ -42,7 +55,7 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailPeminjamanPage(
-                    id: historylog[index].id.toString(),
+                    id: historylog[index].id_user.toString(),
                     idKendaraan: historylog[index].idKendaraan.toString(),
                     namaDepartemen: historylog[index].namaDepartemen.toString(),
                     jeniskendaraan: historylog[index].jenisKendaraan.toString(),

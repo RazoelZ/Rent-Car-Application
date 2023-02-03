@@ -202,7 +202,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     showSearchBox: true,
                     onFind: (text) async {
                       var response = await http.get(Uri.parse(
-                          'http://192.168.110.241/rent_car/public/driver'));
+                          'http://192.168.0.107/rent_car/public/driver'));
                       if (response.statusCode != 200) {
                         return [];
                       }
@@ -227,42 +227,45 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     },
                   ),
                   Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            bool response =
-                                await peminjamanRepository.postPeminjamanData(
-                                    _iduser.text,
-                                    _idkendaraan.text,
-                                    _tanggalpinjamController.text,
-                                    _jampinjamController.text,
-                                    _kmawalController.text,
-                                    _saldoawalController.text,
-                                    _keperluanController.text,
-                                    _driverController.text,
-                                    _tujuan.text);
-                            if (response) {
-                              CoolAlert.show(
-                                  context: context,
-                                  type: CoolAlertType.success,
-                                  text: "Peminjaman Anda Berhasil!",
-                                  confirmBtnText: "Selesai",
-                                  onConfirmBtnTap: (() {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()));
-                                  }));
-                            } else {
-                              CoolAlert.show(
-                                context: context,
-                                type: CoolAlertType.error,
-                                text: "Peminjaman Anda gagal :(",
-                                confirmBtnText: "Kembali",
-                              );
-                            }
-                          },
-                          child: Text("Submit")))
+                    margin: EdgeInsets.only(top: 20),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        bool response =
+                            await peminjamanRepository.postPeminjamanData(
+                                _iduser.text,
+                                _idkendaraan.text,
+                                _tanggalpinjamController.text,
+                                _jampinjamController.text,
+                                _kmawalController.text,
+                                _saldoawalController.text,
+                                _keperluanController.text,
+                                _driverController.text,
+                                _tujuan.text);
+                        if (response == true) {
+                          //harus check message 500
+                          CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.success,
+                              text: "Peminjaman Anda Berhasil!",
+                              confirmBtnText: "Selesai",
+                              onConfirmBtnTap: (() {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()));
+                              }));
+                        } else {
+                          CoolAlert.show(
+                            context: context,
+                            type: CoolAlertType.error,
+                            text: "Peminjaman Anda gagal :(",
+                            confirmBtnText: "Kembali",
+                          );
+                        }
+                      },
+                      child: Text("Submit"),
+                    ),
+                  )
                 ],
               ),
             )),
