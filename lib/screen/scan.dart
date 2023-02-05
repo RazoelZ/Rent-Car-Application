@@ -11,6 +11,7 @@ class ScanPage extends StatefulWidget {
 }
 
 class _ScanPageState extends State<ScanPage> {
+  String? cameraScanResult;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,27 +25,14 @@ class _ScanPageState extends State<ScanPage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () async {
-                String? cameraScanResult = await scanner.scan();
-                print(cameraScanResult);
+                cameraScanResult = await scanner.scan();
+                setState(() {});
               },
               child: const Text('Scan'),
             ),
-            ElevatedButton(
-                onPressed: (() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PengembalianPage()),
-                  );
-                }),
-                child: Text('Pengembalian')),
-            ElevatedButton(
-                onPressed: (() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => foto()),
-                  );
-                }),
-                child: Text("Ke foto yuk"))
+            Text((cameraScanResult == null)
+                ? 'Nomor plat kendaraan : belum ada'
+                : 'Nomor plat kendaraan : $cameraScanResult'),
           ],
         ),
       ),
