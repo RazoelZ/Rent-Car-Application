@@ -10,8 +10,7 @@ import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-
-final _baseUrl = "http://192.168.100.204/rent_car/public/";
+final _baseUrl = "http://192.168.0.104/rent_car/public/";
 
 class Repository {
   Future getData() async {

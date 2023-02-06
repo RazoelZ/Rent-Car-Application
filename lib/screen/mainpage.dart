@@ -17,7 +17,11 @@ class _MainPageState extends State<MainPage> {
   getData() async {
     var data = await repository.getData();
     setState(() {
-      mainKendaraan = data;
+      data.forEach((element) {
+        if (element.pinjam.toString() == "0") {
+          mainKendaraan.add(element);
+        }
+      });
     });
   }
 
@@ -126,9 +130,14 @@ class _MainPageState extends State<MainPage> {
                               : "Loading..."),
                         ],
                       ),
-                      trailing: Text((mainKendaraan != null)
-                          ? "Plat nomor : ${mainKendaraan[index].nomor_polisi}"
-                          : "Loading..."),
+                      trailing: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text((mainKendaraan != null)
+                              ? "Plat : ${mainKendaraan[index].nomor_polisi}"
+                              : "Loading..."),
+                        ],
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) {

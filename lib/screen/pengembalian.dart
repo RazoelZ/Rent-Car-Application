@@ -3,19 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/screen/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PengembalianPage extends StatefulWidget {
-  const PengembalianPage({super.key});
+  final String? plat;
 
+  const PengembalianPage({Key? key, this.plat}) : super(key: key);
   @override
   State<PengembalianPage> createState() => _PengembalianPageState();
 }
 
 class _PengembalianPageState extends State<PengembalianPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pref();
+  }
+
+  pref() async {
+    final prefs = await SharedPreferences.getInstance();
+    _iduser.text = prefs.getString("id_user")!;
+  }
+
   int _index = 0;
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
 
-  final TextEditingController _id = TextEditingController();
+  final TextEditingController _iduser = TextEditingController();
   final TextEditingController _tanggalkembaliController =
       TextEditingController();
   final TextEditingController _jamkembaliController = TextEditingController();
@@ -38,7 +52,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    controller: _id,
+                    controller: _iduser..text = _iduser.text,
                     inputFormatters: [],
                     decoration: InputDecoration(
                         labelText: "Id",
@@ -194,7 +208,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                           onPressed: () async {
                             bool response =
                                 await peminjamanRepository.putPeminjamanData(
-                                    _id.text,
+                                    _iduser.text,
                                     _tanggalkembaliController.text,
                                     _jamkembaliController.text,
                                     _kmakhir.text,

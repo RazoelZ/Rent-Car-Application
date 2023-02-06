@@ -33,6 +33,18 @@ class _ScanPageState extends State<ScanPage> {
             Text((cameraScanResult == null)
                 ? 'Nomor plat kendaraan : belum ada'
                 : 'Nomor plat kendaraan : $cameraScanResult'),
+            if (cameraScanResult != null)
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PengembalianPage(
+                                plat: cameraScanResult,
+                              )));
+                },
+                child: const Text('Lanjut'),
+              ),
           ],
         ),
       ),

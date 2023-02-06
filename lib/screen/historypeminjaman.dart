@@ -50,6 +50,7 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
       body: ListView.separated(
         itemBuilder: (context, index) {
           return ListTile(
+            hoverColor: Colors.grey,
             onTap: () {
               Navigator.push(
                 context,
@@ -84,6 +85,9 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
                 ? "Tanggal Kembali : \n" +
                     historylog[index].tglKembali.toString()
                 : "Loading..."),
+            shape: Border(
+              bottom: BorderSide(color: Colors.grey),
+            ),
           );
         },
         separatorBuilder: (context, index) {
