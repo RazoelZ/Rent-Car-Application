@@ -11,6 +11,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  bool _allpressed = true;
+  bool _mobilpressed = false;
+  bool _motorpressed = false;
   List<MainKendaraan> mainKendaraan = [];
   MainKendaraanRepository repository = MainKendaraanRepository();
 
@@ -25,10 +28,34 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  getMobilData() async {
+    var data = await repository.getData();
+    setState(() {
+      data.forEach((element) {
+        if (element.pinjam.toString() == "0" &&
+            element.jenis_kendaraan == "Mobil") {
+          mainKendaraan.add(element);
+        }
+      });
+    });
+  }
+
+  getMotorData() async {
+    var data = await repository.getData();
+    setState(() {
+      data.forEach((element) {
+        if (element.pinjam.toString() == "0" &&
+            element.jenis_kendaraan == "Motor") {
+          mainKendaraan.add(element);
+        }
+      });
+    });
+  }
+
   @override
   void initState() {
-    getData();
     super.initState();
+    getData();
   }
 
   @override
@@ -45,6 +72,7 @@ class _MainPageState extends State<MainPage> {
                 onChanged: (value) {
                   if (value.isEmpty) {
                     setState(() {
+                      mainKendaraan.clear();
                       getData();
                     });
                   } else {
@@ -64,29 +92,82 @@ class _MainPageState extends State<MainPage> {
                   labelText: 'Cari Kendaraan',
                 )),
           ),
-          // Container(
-          //   margin: EdgeInsets.only(top: 10),
-          //   child: Row(
-          //     children: [
-          //       Container(
-          //         margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          //         child: ElevatedButton(
-          //           onPressed: () {},
-          //           child: const Text('Mobil'),
-          //         ),
-          //       ),
-
-          //       Container(
-          //         child: ElevatedButton(
-          //           onPressed: () {
-
-          //           },
-          //           child: const Text('Motor'),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Container(
+            margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _mobilpressed = false;
+                          _motorpressed = false;
+                          _allpressed = true;
+                          mainKendaraan.clear();
+                          getData();
+                        });
+                      },
+                      child: const Text("Semua"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              _allpressed ? Colors.blue : Colors.grey[200],
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)))),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _allpressed = false;
+                          _motorpressed = false;
+                          _mobilpressed = true;
+                          mainKendaraan.clear();
+                          getMobilData();
+                        });
+                      },
+                      child: const Text("Mobil"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              _mobilpressed ? Colors.blue : Colors.grey[200],
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)))),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _allpressed = false;
+                          _mobilpressed = false;
+                          _motorpressed = true;
+                          mainKendaraan.clear();
+                          getMotorData();
+                        });
+                      },
+                      child: const Text("Motor"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              _motorpressed ? Colors.blue : Colors.grey[200],
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)))),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: SizedBox(
               height: 200.0,
