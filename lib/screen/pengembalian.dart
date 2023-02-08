@@ -27,9 +27,11 @@ class _PengembalianPageState extends State<PengembalianPage> {
   }
 
   int _index = 0;
+  KendaraanRepository kendaraanRepository = KendaraanRepository();
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
 
   final TextEditingController _iduser = TextEditingController();
+
   final TextEditingController _tanggalkembaliController =
       TextEditingController();
   final TextEditingController _jamkembaliController = TextEditingController();
@@ -121,6 +123,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                   ),
                   TextFormField(
                     controller: _kmakhir,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       suffixText: "KM",
                       labelText: "KM Akhir",
@@ -146,6 +149,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                 children: <Widget>[
                   TextFormField(
                     controller: _saldotolakhir,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "Saldo Tol Akhir",
                       prefixText: "Rp. ",
@@ -161,6 +165,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                   ),
                   TextFormField(
                     controller: _hargabbm,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       prefixText: "Rp. ",
                       labelText: "Saldo bensin yang digunakan",
@@ -216,6 +221,11 @@ class _PengembalianPageState extends State<PengembalianPage> {
                                     _hargabbm.text,
                                     _lampirantol.text,
                                     _lampiranbbm.text);
+                            // bool responseUpdate =
+                            //     await kendaraanRepository.updateStatusKendaraan(
+                            //   _idkendaraan.text,
+                            //   1,
+                            // );
                             if (response) {
                               CoolAlert.show(
                                   context: context,

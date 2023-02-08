@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:rentvehicle_application/screen/forgotpassword.dart';
 import 'package:rentvehicle_application/screen/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:crypto/crypto.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,7 +20,11 @@ class _LoginPageState extends State<LoginPage> {
   bool _obsecuretext = true;
   bool visible = false;
   final String sUrl =
-      "http://192.168.110.241/rent_car/public/UserAuthentication";
+      "http://192.168.100.205/rent_car/public/UserAuthentication";
+
+  String generateMd5(String input) {
+    return md5.convert(utf8.encode(input)).toString();
+  }
 
   _cekLogin() async {
     setState(() {
@@ -28,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = await SharedPreferences.getInstance();
 
     var params =
-        "?username=${usernameController.text}&password=${passwordController.text}";
+        "?username=${usernameController.text}&password=${generateMd5(passwordController.text)}";
     try {
       var res = await http.get(Uri.parse(sUrl + params));
       if (res.statusCode == 200) {
@@ -101,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 TextFormField(
-                  controller: passwordController..text = '123',
+                  controller: passwordController..text = '123456',
                   obscureText: _obsecuretext,
                   decoration: InputDecoration(
                       labelText: "Password",

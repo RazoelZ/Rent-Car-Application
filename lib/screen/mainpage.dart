@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       data.forEach((element) {
         if (element.pinjam.toString() == "0" &&
-            element.jenis_kendaraan == "Mobil") {
+            element.jenis_kendaraan == "mobil") {
           mainKendaraan.add(element);
         }
       });
@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       data.forEach((element) {
         if (element.pinjam.toString() == "0" &&
-            element.jenis_kendaraan == "Motor") {
+            element.jenis_kendaraan == "motor") {
           mainKendaraan.add(element);
         }
       });
@@ -207,7 +207,7 @@ class _MainPageState extends State<MainPage> {
                               ? "Lokasi : ${mainKendaraan[index].nama_departemen}"
                               : "Loading..."),
                           Text((mainKendaraan != null)
-                              ? "Jenis_kendaraan : ${mainKendaraan[index].jenis_kendaraan}"
+                              ? "Jenis : ${mainKendaraan[index].jenis_kendaraan}"
                               : "Loading..."),
                         ],
                       ),

@@ -34,6 +34,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
   int _index = 0;
 
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
+  KendaraanRepository kendaraanRepository = KendaraanRepository();
 
   final List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
@@ -202,7 +203,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     showSearchBox: true,
                     onFind: (text) async {
                       var response = await http.get(Uri.parse(
-                          'http://192.168.110.241/rent_car/public/driver'));
+                          'http://192.168.100.205/rent_car/public/driver'));
                       if (response.statusCode != 200) {
                         return [];
                       }
@@ -241,7 +242,12 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                                 _keperluanController.text,
                                 _driverController.text,
                                 _tujuan.text);
-                        if (response == true) {
+                        bool responseUpdate =
+                            await kendaraanRepository.updateStatusKendaraan(
+                          _idkendaraan.text,
+                          1,
+                        );
+                        if (response == true && responseUpdate == true) {
                           //harus check message 500
                           CoolAlert.show(
                               context: context,

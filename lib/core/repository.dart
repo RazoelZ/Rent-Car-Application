@@ -10,9 +10,9 @@ import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-final _baseUrl = "http://192.168.110.241/rent_car/public/";
+final _baseUrl = "http://192.168.100.205/rent_car/public/";
 
-class Repository {
+class KendaraanRepository {
   Future getData() async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/kendaraan'));
@@ -24,6 +24,27 @@ class Repository {
         return kendaraanModel;
       } else {
         Get.snackbar("Error", "Error");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future updateStatusKendaraan(
+    String id_kendaraan,
+    int pinjam,
+  ) async {
+    try {
+      final response =
+          await http.put(Uri.parse('$_baseUrl/kendaraan/$id_kendaraan'), body: {
+        "pinjam": "1",
+      });
+      Map<String, dynamic> jsonMap = jsonDecode(response.body);
+      int status = jsonMap['status'];
+      if (status == 200) {
+        return true;
+      } else {
+        return false;
       }
     } catch (e) {
       print(e.toString());
