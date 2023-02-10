@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:rentvehicle_application/core/repository.dart';
+import 'package:rentvehicle_application/model/KendaraanModel.dart';
+import 'package:rentvehicle_application/model/PeminjamanModel.dart';
+import 'package:rentvehicle_application/screen/Peminjaman.dart';
 import 'package:rentvehicle_application/screen/foto.dart';
 import 'package:rentvehicle_application/screen/pengembalian.dart';
 
@@ -11,7 +15,31 @@ class ScanPage extends StatefulWidget {
 }
 
 class _ScanPageState extends State<ScanPage> {
-  String? cameraScanResult;
+  String? cameraScanResult = null;
+  KendaraanRepository kendaraanRepository = KendaraanRepository();
+  List<KendaraanModel> kendaraan = [];
+
+  String? status;
+
+  getData() async {
+    var data = await kendaraanRepository.getData();
+    setState(() {
+      data.forEach((element) {
+        if (element.nomor_polisi.toString() == cameraScanResult.toString()) {
+          kendaraan.add(element);
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+  //tanya caranya biar bisa langsung ke halaman peminjaman
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,25 +54,44 @@ class _ScanPageState extends State<ScanPage> {
             ElevatedButton(
               onPressed: () async {
                 cameraScanResult = await scanner.scan();
-                setState(() {});
+                kendaraan.clear();
+                setState(() {
+                  getData();
+                });
               },
               child: const Text('Scan'),
             ),
             Text((cameraScanResult == null)
                 ? 'Nomor plat kendaraan : belum ada'
                 : 'Nomor plat kendaraan : $cameraScanResult'),
-            if (cameraScanResult != null)
+            if (kendaraan.isEmpty == true)
+              Text("gaada data")
+            else if (kendaraan[0].pinjam.toString() == "0")
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
+                  onPressed: (() {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PengembalianPage(
-                                plat: cameraScanResult,
-                              )));
-                },
-                child: const Text('Lanjut'),
-              ),
+                        builder: (context) => PeminjamanPage(
+                          id_kendaraan: kendaraan[0].id_kendaraan.toString(),
+                        ),
+                      ),
+                    );
+                  }),
+                  child: Text("Pinjam"))
+            else
+              ElevatedButton(
+                  onPressed: (() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PengembalianPage(
+                          id_kendaraan: kendaraan[0].id_kendaraan.toString(),
+                        ),
+                      ),
+                    );
+                  }),
+                  child: Text("Kembalikan"))
           ],
         ),
       ),

@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rentvehicle_application/screen/forgotpassword.dart';
 import 'package:rentvehicle_application/screen/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart';
+import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _obsecuretext = true;
   bool visible = false;
   final String sUrl =
-      "http://192.168.100.205/rent_car/public/UserAuthentication";
+      "http://192.168.0.106/rent_car/public/api/UserAuthentication";
 
   String generateMd5(String input) {
     return md5.convert(utf8.encode(input)).toString();
@@ -129,6 +129,22 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                 ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 100,
+                    child: WebViewPlus(
+                      javascriptMode: JavascriptMode.unrestricted,
+                      onWebViewCreated: ((controllerPlus) {
+                        controllerPlus.loadUrl("assets/webpage/index.html");
+                      }),
+                      javascriptChannels: Set.from([
+                        JavascriptChannel(
+                            name: 'Captcha',
+                            onMessageReceived: (JavascriptMessage message) {
+                              print(message.message);
+                            }),
+                      ]),
+                    )),
                 SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(

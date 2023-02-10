@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentvehicle_application/screen/gantipassword.dart';
 import 'package:rentvehicle_application/screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.all(50),
+        padding: EdgeInsets.fromLTRB(50, 50, 50, 40),
         child: Column(
           children: <Widget>[
             Container(
@@ -57,6 +58,16 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: EdgeInsets.only(top: 10),
               child: Text(_username.text, style: TextStyle(fontSize: 20)),
             ),
+            Container(
+                child: ElevatedButton(
+              child: Text("Ganti Password"),
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => GantiPasswordPage()));
+              },
+            )),
             Container(
               margin: EdgeInsets.only(top: 100),
               child: ElevatedButton(

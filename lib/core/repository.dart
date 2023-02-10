@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:rentvehicle_application/model/DriverModel.dart';
@@ -10,18 +9,17 @@ import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-final _baseUrl = "http://192.168.100.205/rent_car/public/";
+final _baseUrl = "http://192.168.0.106/rent_car/public/api";
 
 class KendaraanRepository {
   Future getData() async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/kendaraan'));
-
       if (response.statusCode == 200) {
         Iterable it = jsonDecode(response.body);
-        List<KendaraanModel> kendaraanModel = List<KendaraanModel>.from(
+        List<KendaraanModel> kendaraan = List<KendaraanModel>.from(
             it.map((e) => KendaraanModel.fromJson(e)).toList());
-        return kendaraanModel;
+        return kendaraan;
       } else {
         Get.snackbar("Error", "Error");
       }
@@ -38,6 +36,27 @@ class KendaraanRepository {
       final response =
           await http.put(Uri.parse('$_baseUrl/kendaraan/$id_kendaraan'), body: {
         "pinjam": "1",
+      });
+      Map<String, dynamic> jsonMap = jsonDecode(response.body);
+      int status = jsonMap['status'];
+      if (status == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future updateStatusKendaraanKembali(
+    String id_kendaraan,
+    int pinjam,
+  ) async {
+    try {
+      final response =
+          await http.put(Uri.parse('$_baseUrl/kendaraan/$id_kendaraan'), body: {
+        "pinjam": "0",
       });
       Map<String, dynamic> jsonMap = jsonDecode(response.body);
       int status = jsonMap['status'];
@@ -162,7 +181,7 @@ class PeminjamanRepository {
         "lampiran_tol": lampiran_tol,
         "lampiran_bbm": lampiran_bbm,
       });
-
+      print(response.statusCode.toString());
       if (response.statusCode == 200) {
         return true;
       } else {

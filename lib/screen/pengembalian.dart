@@ -2,13 +2,14 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rentvehicle_application/core/repository.dart';
+import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 import 'package:rentvehicle_application/screen/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PengembalianPage extends StatefulWidget {
-  final String? plat;
+  final String? id_kendaraan;
 
-  const PengembalianPage({Key? key, this.plat}) : super(key: key);
+  const PengembalianPage({Key? key, this.id_kendaraan}) : super(key: key);
   @override
   State<PengembalianPage> createState() => _PengembalianPageState();
 }
@@ -19,6 +20,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
     // TODO: implement initState
     super.initState();
     pref();
+    updatePengembalian();
   }
 
   pref() async {
@@ -27,11 +29,26 @@ class _PengembalianPageState extends State<PengembalianPage> {
   }
 
   int _index = 0;
-  KendaraanRepository kendaraanRepository = KendaraanRepository();
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
+  KendaraanRepository kendaraanRepository = KendaraanRepository();
+  List<Peminjaman> peminjaman = [];
+
+  // cari dlu kendaraan yang dipinjam lalu dicocokin sama nomor polisi yang di scan!
+
+  updatePengembalian() async {
+    var data = await peminjamanRepository.getData();
+    setState(() {
+      data.forEach((element) {
+        if (element.id_kendaraan.toString() == widget.id_kendaraan &&
+            element.id_user.toString() == _iduser.text) {
+          peminjaman.add(element);
+        }
+      });
+    });
+  }
 
   final TextEditingController _iduser = TextEditingController();
-
+  final TextEditingController _idpengembalian = TextEditingController();
   final TextEditingController _tanggalkembaliController =
       TextEditingController();
   final TextEditingController _jamkembaliController = TextEditingController();
@@ -53,20 +70,19 @@ class _PengembalianPageState extends State<PengembalianPage> {
               key: _formKeys[0],
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                    controller: _iduser..text = _iduser.text,
-                    inputFormatters: [],
-                    decoration: InputDecoration(
-                        labelText: "Id",
-                        icon: Icon(Icons.indeterminate_check_box)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Masukan id user Anda!";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
+                  // TextFormField(
+                  //   controller: _iduser..text = _iduser.text,
+                  //   decoration: InputDecoration(
+                  //       labelText: "Id",
+                  //       icon: Icon(Icons.indeterminate_check_box)),
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return "Masukan id user Anda!";
+                  //     } else {
+                  //       return null;
+                  //     }
+                  //   },
+                  // ),
                   TextFormField(
                     controller: _tanggalkembaliController,
                     decoration: InputDecoration(
@@ -213,7 +229,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                           onPressed: () async {
                             bool response =
                                 await peminjamanRepository.putPeminjamanData(
-                                    _iduser.text,
+                                    widget.id_kendaraan.toString(),
                                     _tanggalkembaliController.text,
                                     _jamkembaliController.text,
                                     _kmakhir.text,
@@ -221,12 +237,10 @@ class _PengembalianPageState extends State<PengembalianPage> {
                                     _hargabbm.text,
                                     _lampirantol.text,
                                     _lampiranbbm.text);
-                            // bool responseUpdate =
-                            //     await kendaraanRepository.updateStatusKendaraan(
-                            //   _idkendaraan.text,
-                            //   1,
-                            // );
-                            if (response) {
+                            bool responseUpdate = await kendaraanRepository
+                                .updateStatusKendaraanKembali(
+                                    widget.id_kendaraan.toString(), 0);
+                            if (response == true && responseUpdate == true) {
                               CoolAlert.show(
                                   context: context,
                                   type: CoolAlertType.success,

@@ -2,12 +2,12 @@ class Peminjaman {
   final String? id_peminjaman;
   final String? id_kendaraan;
   final String? id_user;
-  final DateTime? tgl_peminjaman;
-  final DateTime? jam_peminjaman;
+  final String? tgl_peminjaman;
+  final String? jam_peminjaman;
   final String? km_awal;
   final String? saldo_tol_awal;
-  final DateTime? tgl_kembali;
-  final DateTime? jam_kembali;
+  final String? tgl_kembali;
+  final String? jam_kembali;
   final String? km_akhir;
   final String? saldo_tol_akhir;
   final String? keperluan;
