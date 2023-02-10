@@ -74,6 +74,8 @@ class _ScanPageState extends State<ScanPage> {
                       MaterialPageRoute(
                         builder: (context) => PeminjamanPage(
                           id_kendaraan: kendaraan[0].id_kendaraan.toString(),
+                          tipe_kendaraan:
+                              kendaraan[0].tipe_kendaraan.toString(),
                         ),
                       ),
                     );

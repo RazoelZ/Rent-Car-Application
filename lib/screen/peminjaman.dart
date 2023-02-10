@@ -11,8 +11,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PeminjamanPage extends StatefulWidget {
   final String id_kendaraan;
+  final String tipe_kendaraan;
 
-  const PeminjamanPage({Key? key, required this.id_kendaraan})
+  const PeminjamanPage(
+      {Key? key, required this.id_kendaraan, required this.tipe_kendaraan})
       : super(key: key);
   @override
   State<PeminjamanPage> createState() => _PeminjamanPageState();
@@ -24,6 +26,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
     super.initState();
     _idkendaraan.text = widget.id_kendaraan;
     pref();
+    print(widget.tipe_kendaraan);
   }
 
   pref() async {
@@ -231,42 +234,45 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     margin: EdgeInsets.only(top: 20),
                     child: ElevatedButton(
                       onPressed: () async {
-                        bool response =
-                            await peminjamanRepository.postPeminjamanData(
-                                _idkendaraan.text,
-                                _iduser.text,
-                                _tanggalpinjamController.text,
-                                _jampinjamController.text,
-                                _kmawalController.text,
-                                _saldoawalController.text,
-                                _keperluanController.text,
-                                _driverController.text,
-                                _tujuan.text);
-                        bool responseUpdate =
-                            await kendaraanRepository.updateStatusKendaraan(
-                          _idkendaraan.text,
-                          1,
-                        );
-                        if (response == true && responseUpdate == true) {
-                          //harus check message 500
-                          CoolAlert.show(
-                              context: context,
-                              type: CoolAlertType.success,
-                              text: "Peminjaman Anda Berhasil!",
-                              confirmBtnText: "Selesai",
-                              onConfirmBtnTap: (() {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()));
-                              }));
-                        } else {
-                          CoolAlert.show(
-                            context: context,
-                            type: CoolAlertType.error,
-                            text: "Peminjaman Anda gagal :(",
-                            confirmBtnText: "Kembali",
+                        if (_formKeys[0].currentState!.validate() &&
+                            _formKeys[1].currentState!.validate()) {
+                          bool response =
+                              await peminjamanRepository.postPeminjamanData(
+                                  _idkendaraan.text,
+                                  _iduser.text,
+                                  _tanggalpinjamController.text,
+                                  _jampinjamController.text,
+                                  _kmawalController.text,
+                                  _saldoawalController.text,
+                                  _keperluanController.text,
+                                  _driverController.text,
+                                  _tujuan.text);
+                          bool responseUpdate =
+                              await kendaraanRepository.updateStatusKendaraan(
+                            _idkendaraan.text,
+                            1,
                           );
+                          if (response == true && responseUpdate == true) {
+                            //harus check message 500
+                            CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.success,
+                                text: "Peminjaman Anda Berhasil!",
+                                confirmBtnText: "Selesai",
+                                onConfirmBtnTap: (() {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomePage()));
+                                }));
+                          } else {
+                            CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.error,
+                              text: "Peminjaman Anda gagal :(",
+                              confirmBtnText: "Kembali",
+                            );
+                          }
                         }
                       },
                       child: Text("Submit"),
@@ -280,7 +286,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Pengisian Form Peminjaman'),
+          title: Text('Form Peminjaman ' + widget.tipe_kendaraan),
         ),
         body: Stepper(
             controlsBuilder: (context, _) {

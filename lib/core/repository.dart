@@ -9,7 +9,7 @@ import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-final _baseUrl = "http://192.168.0.106/rent_car/public/api";
+const _baseUrl = "http://192.168.0.106/rent_car/public/api";
 
 class KendaraanRepository {
   Future getData() async {
@@ -75,13 +75,35 @@ class KendaraanRepository {
 class UserRepository {
   Future getData() async {
     try {
-      final response = await http.get(Uri.parse('$_baseUrl/user/1'));
+      final response = await http.get(Uri.parse('$_baseUrl/user'));
       if (response.statusCode == 200) {
-        jsonDecode(response.body);
-        User user = User.fromJson(jsonDecode(response.body));
+        Iterable it = jsonDecode(response.body);
+        List<User> user =
+            List<User>.from(it.map((e) => User.fromJson(e)).toList());
         return user;
       } else {
         Get.snackbar("Error", "Error");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future updatePassword(
+    String id_user,
+    String password,
+  ) async {
+    try {
+      final response =
+          await http.put(Uri.parse('$_baseUrl/user/$id_user'), body: {
+        "password": password,
+      });
+      Map<String, dynamic> jsonMap = jsonDecode(response.body);
+      int status = jsonMap['status'];
+      if (status == 200) {
+        return true;
+      } else {
+        return false;
       }
     } catch (e) {
       print(e.toString());

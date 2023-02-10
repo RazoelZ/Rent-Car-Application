@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextFormField(
-                  controller: usernameController..text = 'bima@gmail.com',
+                  controller: usernameController..text = 'dafa@gmail.com',
                   decoration: InputDecoration(
                       labelText: "username",
                       icon: Icon(Icons.person_outline),
@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 TextFormField(
-                  controller: passwordController..text = '123456',
+                  controller: passwordController..text = '123456789',
                   obscureText: _obsecuretext,
                   decoration: InputDecoration(
                       labelText: "Password",

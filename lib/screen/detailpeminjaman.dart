@@ -113,6 +113,7 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                       MaterialPageRoute(
                         builder: (context) => PeminjamanPage(
                           id_kendaraan: widget.id_kendaraan!,
+                          tipe_kendaraan: widget.tipe_kendaraan!,
                         ),
                       ),
                     );

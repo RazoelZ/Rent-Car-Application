@@ -70,19 +70,6 @@ class _PengembalianPageState extends State<PengembalianPage> {
               key: _formKeys[0],
               child: Column(
                 children: <Widget>[
-                  // TextFormField(
-                  //   controller: _iduser..text = _iduser.text,
-                  //   decoration: InputDecoration(
-                  //       labelText: "Id",
-                  //       icon: Icon(Icons.indeterminate_check_box)),
-                  //   validator: (value) {
-                  //     if (value == null || value.isEmpty) {
-                  //       return "Masukan id user Anda!";
-                  //     } else {
-                  //       return null;
-                  //     }
-                  //   },
-                  // ),
                   TextFormField(
                     controller: _tanggalkembaliController,
                     decoration: InputDecoration(
@@ -227,38 +214,44 @@ class _PengembalianPageState extends State<PengembalianPage> {
                       margin: EdgeInsets.only(top: 10),
                       child: ElevatedButton(
                           onPressed: () async {
-                            bool response =
-                                await peminjamanRepository.putPeminjamanData(
-                                    widget.id_kendaraan.toString(),
-                                    _tanggalkembaliController.text,
-                                    _jamkembaliController.text,
-                                    _kmakhir.text,
-                                    _saldotolakhir.text,
-                                    _hargabbm.text,
-                                    _lampirantol.text,
-                                    _lampiranbbm.text);
-                            bool responseUpdate = await kendaraanRepository
-                                .updateStatusKendaraanKembali(
-                                    widget.id_kendaraan.toString(), 0);
-                            if (response == true && responseUpdate == true) {
-                              CoolAlert.show(
+                            if (_formKeys[0].currentState!.validate() &&
+                                _formKeys[1].currentState!.validate()) {
+                              bool response =
+                                  await peminjamanRepository.putPeminjamanData(
+                                      _idpengembalian.text = peminjaman[0]
+                                          .id_peminjaman
+                                          .toString(),
+                                      _tanggalkembaliController.text,
+                                      _jamkembaliController.text,
+                                      _kmakhir.text,
+                                      _saldotolakhir.text,
+                                      _hargabbm.text,
+                                      _lampirantol.text,
+                                      _lampiranbbm.text);
+                              bool responseUpdate = await kendaraanRepository
+                                  .updateStatusKendaraanKembali(
+                                      widget.id_kendaraan.toString(), 0);
+                              if (response == true && responseUpdate == true) {
+                                CoolAlert.show(
+                                    context: context,
+                                    type: CoolAlertType.success,
+                                    text: "Pengembalian Anda Berhasil!",
+                                    confirmBtnText: "Selesai",
+                                    onConfirmBtnTap: (() {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomePage()));
+                                    }));
+                              } else {
+                                CoolAlert.show(
                                   context: context,
-                                  type: CoolAlertType.success,
-                                  text: "Peminjaman Anda Berhasil!",
-                                  confirmBtnText: "Selesai",
-                                  onConfirmBtnTap: (() {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()));
-                                  }));
-                            } else {
-                              CoolAlert.show(
-                                context: context,
-                                type: CoolAlertType.error,
-                                text: "Pengembalian Anda gagal :(",
-                                confirmBtnText: "Kembali",
-                              );
+                                  type: CoolAlertType.error,
+                                  text: "Pengembalian Anda gagal :(",
+                                  confirmBtnText: "Kembali",
+                                );
+                              }
                             }
                           },
                           child: Text("Submit")))
