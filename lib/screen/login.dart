@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _obsecuretext = true;
   bool visible = false;
   final String sUrl =
-      "http://192.168.0.106/rent_car/public/api/UserAuthentication";
+      "http://192.168.0.104/rent_car/public/api/UserAuthentication";
 
   String generateMd5(String input) {
     return md5.convert(utf8.encode(input)).toString();
@@ -45,9 +45,8 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           visible = false;
         });
-
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (BuildContext context) => HomePage()));
       } else {
         setState(() {
           visible = false;

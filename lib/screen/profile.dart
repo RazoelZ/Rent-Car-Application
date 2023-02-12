@@ -35,6 +35,31 @@ class _ProfilePageState extends State<ProfilePage> {
         context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
+  Future exitDialog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Keluar Aplikasi"),
+            content: Text("Apakah anda yakin ingin keluar dari aplikasi?"),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text("Tidak"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _logOut();
+                },
+                child: Text("Ya"),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: ElevatedButton(
               child: Text("Ganti Password"),
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => GantiPasswordPage()));
@@ -73,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: ElevatedButton(
                 child: Text("Logout"),
                 onPressed: () {
-                  _logOut();
+                  exitDialog();
                 },
               ),
             )

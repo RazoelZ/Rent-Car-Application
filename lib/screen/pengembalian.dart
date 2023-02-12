@@ -8,8 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PengembalianPage extends StatefulWidget {
   final String? id_kendaraan;
+  final String? km;
+  final String? total_saldo_tol;
 
-  const PengembalianPage({Key? key, this.id_kendaraan}) : super(key: key);
+  const PengembalianPage(
+      {Key? key, this.id_kendaraan, this.km, this.total_saldo_tol})
+      : super(key: key);
   @override
   State<PengembalianPage> createState() => _PengembalianPageState();
 }
@@ -93,6 +97,9 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Masukan Tanggal Kembali!";
+                      } else if (DateTime.parse(value).day <
+                          DateTime.parse(peminjaman[0].tgl_peminjaman!).day) {
+                        return "Tanggal kembali tidak boleh lebih awal dari tanggal peminjaman!";
                       } else {
                         return null;
                       }
@@ -230,7 +237,17 @@ class _PengembalianPageState extends State<PengembalianPage> {
                                       _lampiranbbm.text);
                               bool responseUpdate = await kendaraanRepository
                                   .updateStatusKendaraanKembali(
-                                      widget.id_kendaraan.toString(), 0);
+                                widget.id_kendaraan.toString(),
+                                0,
+                                (widget.km! + _kmakhir.text).toString(),
+                                (widget.total_saldo_tol! + _saldotolakhir.text)
+                                    .toString(),
+                              );
+                              print((widget.km! + _kmakhir.text).toString());
+                              print(
+                                (widget.total_saldo_tol! + _saldotolakhir.text)
+                                    .toString(),
+                              );
                               if (response == true && responseUpdate == true) {
                                 CoolAlert.show(
                                     context: context,

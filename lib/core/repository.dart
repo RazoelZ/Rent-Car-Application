@@ -9,7 +9,7 @@ import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-const _baseUrl = "http://192.168.0.106/rent_car/public/api";
+const _baseUrl = "http://192.168.0.104/rent_car/public/api";
 
 class KendaraanRepository {
   Future getData() async {
@@ -52,11 +52,15 @@ class KendaraanRepository {
   Future updateStatusKendaraanKembali(
     String id_kendaraan,
     int pinjam,
+    String km,
+    String total_saldo_tol,
   ) async {
     try {
       final response =
           await http.put(Uri.parse('$_baseUrl/kendaraan/$id_kendaraan'), body: {
         "pinjam": "0",
+        "km": km.toString(),
+        "total_saldo_tol": total_saldo_tol.toString(),
       });
       Map<String, dynamic> jsonMap = jsonDecode(response.body);
       int status = jsonMap['status'];

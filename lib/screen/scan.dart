@@ -89,6 +89,9 @@ class _ScanPageState extends State<ScanPage> {
                       MaterialPageRoute(
                         builder: (context) => PengembalianPage(
                           id_kendaraan: kendaraan[0].id_kendaraan.toString(),
+                          km: kendaraan[0].km.toString(),
+                          total_saldo_tol:
+                              kendaraan[0].total_saldo_tol.toString(),
                         ),
                       ),
                     );
