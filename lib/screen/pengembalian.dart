@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 import 'package:rentvehicle_application/screen/home.dart';
+import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PengembalianPage extends StatefulWidget {
@@ -61,6 +62,35 @@ class _PengembalianPageState extends State<PengembalianPage> {
   final TextEditingController _hargabbm = TextEditingController();
   final TextEditingController _lampirantol = TextEditingController();
   final TextEditingController _lampiranbbm = TextEditingController();
+
+  //convert jam ke detik
+  int hoursToSeconds(String value) {
+    List<String> timeParts = value.split(":");
+    int hours = int.parse(timeParts[0]);
+    int minutes = int.parse(timeParts[1]);
+    Duration duration = Duration(hours: hours, minutes: minutes);
+    int seconds = duration.inSeconds;
+    return seconds;
+  }
+
+  //menghitung saldo tol akhir
+  int totalSaldo() {
+    int saldo = int.parse(widget.total_saldo_tol!);
+    String saldoawal = peminjaman[0].saldo_tol_awal.toString();
+    int saldoakhir =
+        (int.parse(saldoawal) - int.parse(_saldotolakhir.text)).abs();
+    int totalAkhir = saldoakhir + saldo;
+    return totalAkhir;
+  }
+
+  //menghitung km akhir
+  int totalKm() {
+    int km = int.parse(widget.km!);
+    String kmawal = peminjaman[0].km_awal.toString();
+    int kmakhir = (int.parse(kmawal) - int.parse(_kmakhir.text)).abs();
+    int totalAkhir = kmakhir + km;
+    return totalAkhir;
+  }
 
   List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
@@ -126,6 +156,14 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Masukan Jam Kembali!";
+                      } else if (DateTime.parse(_tanggalkembaliController.text)
+                              .day ==
+                          DateTime.parse(peminjaman[0].tgl_peminjaman!).day) {
+                        if (hoursToSeconds(value) ==
+                            hoursToSeconds(
+                                peminjaman[0].jam_peminjaman!.toString())) {
+                          return "Jam kembali tidak boleh sama dengan jam peminjaman!";
+                        }
                       } else {
                         return null;
                       }
@@ -239,28 +277,23 @@ class _PengembalianPageState extends State<PengembalianPage> {
                                   .updateStatusKendaraanKembali(
                                 widget.id_kendaraan.toString(),
                                 0,
-                                (widget.km! + _kmakhir.text).toString(),
-                                (widget.total_saldo_tol! + _saldotolakhir.text)
-                                    .toString(),
-                              );
-                              print((widget.km! + _kmakhir.text).toString());
-                              print(
-                                (widget.total_saldo_tol! + _saldotolakhir.text)
-                                    .toString(),
+                                totalKm().toString(),
+                                totalSaldo().toString(),
                               );
                               if (response == true && responseUpdate == true) {
                                 CoolAlert.show(
-                                    context: context,
-                                    type: CoolAlertType.success,
-                                    text: "Pengembalian Anda Berhasil!",
-                                    confirmBtnText: "Selesai",
-                                    onConfirmBtnTap: (() {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomePage()));
-                                    }));
+                                  context: context,
+                                  type: CoolAlertType.success,
+                                  text: "Pengembalian Anda Berhasil!",
+                                  confirmBtnText: "Selesai",
+                                  onConfirmBtnTap: (() {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomePage()),
+                                    );
+                                  }),
+                                );
                               } else {
                                 CoolAlert.show(
                                   context: context,

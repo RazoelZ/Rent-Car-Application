@@ -9,7 +9,7 @@ import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-const _baseUrl = "http://192.168.0.104/rent_car/public/api";
+const _baseUrl = "http://192.168.0.105/rent_car/public/api";
 
 class KendaraanRepository {
   Future getData() async {
@@ -207,7 +207,6 @@ class PeminjamanRepository {
         "lampiran_tol": lampiran_tol,
         "lampiran_bbm": lampiran_bbm,
       });
-      print(response.statusCode.toString());
       if (response.statusCode == 200) {
         return true;
       } else {

@@ -60,7 +60,6 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Ganti Password"),
-        automaticallyImplyLeading: false,
       ),
       body: Container(
         padding: EdgeInsets.fromLTRB(50, 50, 50, 40),

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/KendaraanModel.dart';
-import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 import 'package:rentvehicle_application/screen/Peminjaman.dart';
-import 'package:rentvehicle_application/screen/foto.dart';
+import 'package:rentvehicle_application/screen/fototototo.dart';
 import 'package:rentvehicle_application/screen/pengembalian.dart';
 
 class ScanPage extends StatefulWidget {
@@ -37,6 +36,7 @@ class _ScanPageState extends State<ScanPage> {
     // TODO: implement initState
     super.initState();
     getData();
+    cameraScanResult = 'BQ671TR';
   }
   //tanya caranya biar bisa langsung ke halaman peminjaman
 
@@ -96,7 +96,17 @@ class _ScanPageState extends State<ScanPage> {
                       ),
                     );
                   }),
-                  child: Text("Kembalikan"))
+                  child: Text("Kembalikan")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FotoPage(),
+                    ),
+                  );
+                },
+                child: Text("upload foto"))
           ],
         ),
       ),
