@@ -170,9 +170,6 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> {
                         _iduser.text,
                         generateMd5(passwordbaru.text),
                       );
-                      print(response);
-                      print(_iduser.text);
-                      print(generateMd5(passwordbaru.text));
                       if (response == true) {
                         CoolAlert.show(
                           context: context,

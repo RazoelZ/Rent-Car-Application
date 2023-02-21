@@ -36,7 +36,6 @@ class _ScanPageState extends State<ScanPage> {
     // TODO: implement initState
     super.initState();
     getData();
-    cameraScanResult = 'BQ671TR';
   }
   //tanya caranya biar bisa langsung ke halaman peminjaman
 
@@ -97,16 +96,16 @@ class _ScanPageState extends State<ScanPage> {
                     );
                   }),
                   child: Text("Kembalikan")),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FotoPage(),
-                    ),
-                  );
-                },
-                child: Text("upload foto"))
+            // ElevatedButton(
+            //     onPressed: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => FotoPage(),
+            //         ),
+            //       );
+            //     },
+            //     child: Text("upload foto"))
           ],
         ),
       ),

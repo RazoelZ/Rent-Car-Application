@@ -51,6 +51,8 @@ dependencies:
   crypto: ^3.0.2
   webview_flutter_plus: ^0.3.0+2
   modal_progress_hud_nsn: ^0.3.0
+  mailer: ^6.0.0
+  logger: ^1.1.0
   
 
 flutter_native_splash:
