@@ -91,6 +91,12 @@ class _PengembalianPageState extends State<PengembalianPage> {
     return totalAkhir;
   }
 
+  int selisihKm() {
+    String kmawal = peminjaman[0].km_awal.toString();
+    int selisihKM = (int.parse(kmawal) - int.parse(_kmakhir.text)).abs();
+    return selisihKM;
+  }
+
   List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
@@ -179,6 +185,9 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Masukan KM Akhir!";
+                      } else if (int.parse(value) <=
+                          int.parse(peminjaman[0].km_awal!)) {
+                        return "KM Akhir tidak boleh lebih kecil dari KM Awal!";
                       } else {
                         return null;
                       }
@@ -205,6 +214,8 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Masukan Saldo Tol Anda!";
+                      } else if (int.parse(value) < 0) {
+                        return "Saldo Tol tidak boleh kurang dari 0!";
                       } else {
                         return null;
                       }
@@ -220,7 +231,9 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Masukan Saldo Bensin Anda!";
+                        return "Masukan Harga BBM Anda!";
+                      } else if (int.parse(value) < 0) {
+                        return "Harga BBM tidak boleh kurang dari 0!";
                       } else {
                         return null;
                       }
@@ -234,7 +247,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Masukan Saldo Bensin Anda!";
+                        return "Lampiran Saldo Tol Anda!";
                       } else {
                         return null;
                       }
@@ -248,7 +261,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Masukan Saldo Bensin Anda!";
+                        return "Lampiran Saldo BBM Anda!";
                       } else {
                         return null;
                       }
@@ -271,7 +284,9 @@ class _PengembalianPageState extends State<PengembalianPage> {
                                       _saldotolakhir.text,
                                       _hargabbm.text,
                                       _lampirantol.text,
-                                      _lampiranbbm.text);
+                                      _lampiranbbm.text,
+                                      selisihKm().toString());
+
                               bool responseUpdate = await kendaraanRepository
                                   .updateStatusKendaraanKembali(
                                 widget.id_kendaraan.toString(),

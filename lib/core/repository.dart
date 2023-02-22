@@ -9,7 +9,7 @@ import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-const _baseUrl = "http://10.137.42.243/rent_car/public/api";
+const _baseUrl = "http://192.168.111.112/rent_car/public/api";
 
 class KendaraanRepository {
   Future getData() async {
@@ -195,7 +195,8 @@ class PeminjamanRepository {
       String saldo_tol_akhir,
       String hargabbm,
       String lampiran_tol,
-      String lampiran_bbm) async {
+      String lampiran_bbm,
+      String total_km) async {
     try {
       final response =
           await http.put(Uri.parse('$_baseUrl/peminjaman/$id'), body: {
@@ -206,6 +207,7 @@ class PeminjamanRepository {
         "hargabbm": hargabbm.toString(),
         "lampiran_tol": lampiran_tol,
         "lampiran_bbm": lampiran_bbm,
+        "total_km": total_km,
       });
       if (response.statusCode == 200) {
         return true;

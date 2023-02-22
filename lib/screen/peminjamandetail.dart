@@ -130,8 +130,8 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                           labelText: "Tanggal Pengembalian",
                           border: OutlineInputBorder(),
                         ),
-                        initialValue: widget.tglPengembalian.isEmpty == true
-                            ? "Belom dikembalikan"
+                        initialValue: widget.tglPengembalian == "null"
+                            ? "Masih dipinjam"
                             : widget.tglPengembalian,
                       ),
                     ),
@@ -164,7 +164,9 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                           labelText: "Jam Pengembalian",
                           border: OutlineInputBorder(),
                         ),
-                        initialValue: widget.jamKembali,
+                        initialValue: widget.jamKembali == "null"
+                            ? "Masih dipinjam"
+                            : widget.jamKembali,
                       ),
                     ),
                   ],
@@ -196,7 +198,9 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                           labelText: "Km Akhir",
                           border: OutlineInputBorder(),
                         ),
-                        initialValue: widget.kmAkhir,
+                        initialValue: widget.kmAkhir == "null"
+                            ? "Masih dipinjam"
+                            : widget.kmAkhir,
                       ),
                     ),
                   ],

@@ -82,8 +82,11 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
                 ? "Driver : " + historylog[index].driver.toString()
                 : "Loading..."),
             trailing: Text((historylog != null)
-                ? "Tanggal Kembali : \n" +
-                    historylog[index].tglKembali.toString()
+                ? (historylog[index].tglKembali.toString() == "null")
+                    ? "Belum dikembalikan"
+                    : "Sudah dikembalikan" +
+                        "\n" +
+                        historylog[index].tglPeminjaman.toString()
                 : "Loading..."),
             shape: Border(
               bottom: BorderSide(color: Colors.grey),
@@ -98,3 +101,9 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
     );
   }
 }
+
+
+// Text((historylog != "null")
+//                 ? "Tanggal Kembali : \n" +
+//                     historylog[index].tglKembali.toString()
+//                 : "Loading..."),
