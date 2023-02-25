@@ -100,6 +100,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
   List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
   ];
   List<Step> steps() => [
         Step(
@@ -239,6 +240,16 @@ class _PengembalianPageState extends State<PengembalianPage> {
                       }
                     },
                   ),
+                ],
+              ),
+            )),
+        Step(
+            isActive: _index >= 2 ? true : false,
+            title: const Text('Langkah 3'),
+            content: Form(
+              key: _formKeys[2],
+              child: Column(
+                children: <Widget>[
                   TextFormField(
                     controller: _lampirantol,
                     decoration: InputDecoration(
@@ -272,7 +283,8 @@ class _PengembalianPageState extends State<PengembalianPage> {
                       child: ElevatedButton(
                           onPressed: () async {
                             if (_formKeys[0].currentState!.validate() &&
-                                _formKeys[1].currentState!.validate()) {
+                                _formKeys[1].currentState!.validate() &&
+                                _formKeys[2].currentState!.validate()) {
                               bool response =
                                   await peminjamanRepository.putPeminjamanData(
                                       _idpengembalian.text = peminjaman[0]

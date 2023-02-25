@@ -33,25 +33,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   Future<void> sendMail() async {
-    try {
-      // var userEmail = user
-      //     .where((element) => element.username == _username.text)
-      //     .toList()[0]
-      //     .username;
-      var userEmail = 'dany.razoel69@gmail.com';
-      var message = Message();
-      message.subject = 'Lupa Password';
-      message.text = 'Halo ini saya flutter';
-      message.from = Address(userEmail.toString());
-      message.recipients.add('jokopranowow99@gmail.com');
-      var smtpServer = gmailRelaySaslXoauth2(userEmail, 'geawdutmyzsuypwm');
-      send(message, smtpServer);
-      print("Email berhasil dikirim");
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Email berhasil dikirim")));
-    } catch (e) {
-      print(e.toString());
-    }
+    String username = 'dany.razoel69@gmail.com';
+    String password = 'geawdutmyzsuypwm';
+
+    final smtpServer = gmail(username, password);
+    final equivalentMessage = Message()
+      ..from = Address(username, 'Your name')
+      ..recipients.add(Address('jokopranowow99@gmail.com'))
+      ..subject = 'Ganti Password'
+      ..html =
+          "<h1>Hallo user!</h1><p>Email ini dikirim untuk me reset password.</p><p><a href=\"http://localhost:8080/lupa_password/reset_password/c4ca4238a0b923820dcc509a6f75849b\">Click disini untuk me reset password anda</a></p><img src=\"https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png\" /> ";
+    await send(equivalentMessage, smtpServer);
+    print('Message sent: ' + equivalentMessage.toString());
   }
 
   Widget build(BuildContext context) {

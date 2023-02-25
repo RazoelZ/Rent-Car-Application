@@ -20,7 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _obsecuretext = true;
   bool visible = false;
   final String sUrl =
-      "http://192.168.111.112/rent_car/public/api/UserAuthentication";
+      "http://192.168.0.109/rent_car/public/api/UserAuthentication";
+  // "http://192.168.0.109:8080/api/autentikasiapi";
 
   String generateMd5(String input) {
     return md5.convert(utf8.encode(input)).toString();

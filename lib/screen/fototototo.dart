@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:path/path.dart';
 
 class FotoPage extends StatefulWidget {
   const FotoPage({super.key});
@@ -12,97 +12,91 @@ class FotoPage extends StatefulWidget {
 }
 
 class _FotoPageState extends State<FotoPage> {
-  File? image;
-  final _picker = ImagePicker();
-  bool showSpinner = false;
+  File? _imageBBM;
+  File? _imageTol;
 
-  Future getImage() async {
-    final pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
-
-    if (pickedFile != null) {
-      image = File(pickedFile.path);
-      setState(() {});
-    } else {
-      print('No image selected.');
-    }
+  Future getImageGallery() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _imageBBM = File(image!.path);
+    });
   }
 
-  Future<void> UploadImage() async {
+  Future getImageCamera() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.camera);
     setState(() {
-      showSpinner = true;
+      _imageBBM = File(image!.path);
     });
-    var stream = new http.ByteStream(image!.openRead());
-    stream.cast();
+  }
 
-    var length = await image!.length();
-    var uri = Uri.parse('http://192.168.0.100/rent_car/public/api/peminjaman');
+  Future uploadImage(File imageFile) async {
+    var stream = new http.ByteStream(imageFile.openRead());
+    var length = await imageFile.length();
+    var uri = Uri.parse("http://192.168.0.109/rent_car/public/api/uploadImage");
+
     var request = new http.MultipartRequest("POST", uri);
 
-    request.fields['id_peminjaman'] = "1";
+    var MultiPartFile = new http.MultipartFile("peminjaman", stream, length,
+        filename: basename(imageFile.path));
 
-    var multipartFile = new http.MultipartFile(
-      'foto',
-      stream,
-      length,
-    );
+    request.files.add(MultiPartFile);
 
     var response = await request.send();
-
     if (response.statusCode == 200) {
-      setState(() {
-        showSpinner = false;
-      });
+      print(response.statusCode);
       print("Image Uploaded");
     } else {
+      print(response.statusCode);
       print("Upload Failed");
-      setState(() {
-        showSpinner = false;
-      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ModalProgressHUD(
-      inAsyncCall: showSpinner,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Foto"),
-        ),
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                  child: image == null
-                      ? Center(
-                          child: Text("No Image Selected"),
-                        )
-                      : Container(
-                          child: Center(
-                            child: Image.file(
-                              File(image!.path).absolute,
-                              height: 300,
-                              width: 300,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )),
-              SizedBox(height: 150),
-              GestureDetector(
-                onTap: () {
-                  UploadImage();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Foto"),
+      ),
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 250,
+              height: 250,
+              child: Center(
+                child: _imageBBM == null
+                    ? Text("No image selected.")
+                    : Image.file(_imageBBM!),
+              ),
+            ),
+            Center(
+              child: _imageTol == null
+                  ? Text("No image selected.")
+                  : Image.file(_imageBBM!),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      getImageGallery();
+                    },
+                    child: Text("gallery")),
+                ElevatedButton(
+                    onPressed: () {
+                      getImageCamera();
+                    },
+                    child: Text("camera")),
+              ],
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  uploadImage(_imageBBM!);
                 },
-                child: Container(
-                  height: 50,
-                  color: Colors.blue,
-                  child: Text('Upload'),
-                ),
-              )
-            ],
-          ),
+                child: Text("Upload"))
+          ],
         ),
       ),
     );

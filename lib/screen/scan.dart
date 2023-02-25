@@ -96,16 +96,16 @@ class _ScanPageState extends State<ScanPage> {
                     );
                   }),
                   child: Text("Kembalikan")),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => FotoPage(),
-            //         ),
-            //       );
-            //     },
-            //     child: Text("upload foto"))
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FotoPage(),
+                    ),
+                  );
+                },
+                child: Text("upload foto"))
           ],
         ),
       ),
