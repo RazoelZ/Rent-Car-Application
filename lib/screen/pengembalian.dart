@@ -1,8 +1,10 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rentvehicle_application/constants.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
+import 'package:rentvehicle_application/screen/fototototo.dart';
 import 'package:rentvehicle_application/screen/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,14 +55,16 @@ class _PengembalianPageState extends State<PengembalianPage> {
 
   final TextEditingController _iduser = TextEditingController();
   final TextEditingController _idpengembalian = TextEditingController();
-  final TextEditingController _tanggalkembaliController =
-      TextEditingController();
+  final TextEditingController _tanggalkembaliController = TextEditingController();
   final TextEditingController _jamkembaliController = TextEditingController();
   final TextEditingController _saldotolakhir = TextEditingController();
   final TextEditingController _kmakhir = TextEditingController();
   final TextEditingController _hargabbm = TextEditingController();
   final TextEditingController _lampirantol = TextEditingController();
   final TextEditingController _lampiranbbm = TextEditingController();
+
+  String? uploadedImageTol;
+  String? uploadedImageBBM;
 
   //convert jam ke detik
   int hoursToSeconds(String value) {
@@ -250,7 +254,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
               key: _formKeys[2],
               child: Column(
                 children: <Widget>[
-                  TextFormField(
+                  /*TextFormField(
                     controller: _lampirantol,
                     decoration: InputDecoration(
                       labelText: "Lampiran Saldo Tol",
@@ -277,63 +281,153 @@ class _PengembalianPageState extends State<PengembalianPage> {
                         return null;
                       }
                     },
+                  ),*/
+                  Container(
+                    height: MediaQuery.of(context).size.height*0.5,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 5,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3)
+                        ),
+                      ],
+                    ),
+                    child: uploadedImageTol != null
+                    ? Image.network(
+                      '$kBASE_URL/assets/lampiran_tol/$uploadedImageTol', fit: BoxFit.contain,
+                      errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                        return Center(child: Text('Bukti tidak ditemukan, silahkan upload ulang'));
+                      },
+                    )
+                    : Center(child: Text('Bukti Foto Lampiran Saldo Tol tidak ditemukan')),
                   ),
                   Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            if (_formKeys[0].currentState!.validate() &&
-                                _formKeys[1].currentState!.validate() &&
-                                _formKeys[2].currentState!.validate()) {
-                              bool response =
-                                  await peminjamanRepository.putPeminjamanData(
-                                      _idpengembalian.text = peminjaman[0]
-                                          .id_peminjaman
-                                          .toString(),
-                                      _tanggalkembaliController.text,
-                                      _jamkembaliController.text,
-                                      _kmakhir.text,
-                                      _saldotolakhir.text,
-                                      _hargabbm.text,
-                                      _lampirantol.text,
-                                      _lampiranbbm.text,
-                                      selisihKm().toString());
+                    margin: EdgeInsets.only(top: 10),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FotoPage(id_peminjaman: peminjaman[0].id_peminjaman.toString(), category: 'lampiran_tol',),
+                          ),
+                        ).then((value) {
+                          setState(() {
+                            uploadedImageTol = value;
+                          });
+                        });
+                      },
+                      child: Text("Upload Foto Lampiran Saldo Tol")
+                    )
+                  ),
+                  SizedBox(height: 32,),
+                  Container(
+                    height: MediaQuery.of(context).size.height*0.5,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 5,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3)
+                        ),
+                      ],
+                    ),
+                    child: uploadedImageBBM != null
+                    ? Image.network(
+                      '$kBASE_URL/assets/lampiran_bbm/$uploadedImageBBM', fit: BoxFit.contain,
+                      errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                        return Center(child: Text('Bukti tidak ditemukan, silahkan upload ulang'));
+                      },
+                    )
+                    : Center(child: Text('Bukti Foto Lampiran Saldo BBM tidak ditemukan')),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FotoPage(id_peminjaman: peminjaman[0].id_peminjaman.toString(), category: 'lampiran_bbm'),
+                          ),
+                        ).then((value) {
+                          setState(() {
+                            uploadedImageBBM = value;
+                          });
+                        });
+                      },
+                      child: Text("Upload Foto Lampiran Saldo BBM")
+                    )
+                  ),
+                  SizedBox(height: 8,),
+                  (uploadedImageBBM != null && uploadedImageTol != null)
+                  ? Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (uploadedImageBBM != null &&
+                            uploadedImageTol != null) {
+                          bool response =
+                              await peminjamanRepository.putPeminjamanData(
+                                  _idpengembalian.text = peminjaman[0]
+                                      .id_peminjaman
+                                      .toString(),
+                                  _tanggalkembaliController.text,
+                                  _jamkembaliController.text,
+                                  _kmakhir.text,
+                                  _saldotolakhir.text,
+                                  _hargabbm.text,
+                                  uploadedImageTol!,
+                                  uploadedImageBBM!,
+                                  selisihKm().toString());
 
-                              bool responseUpdate = await kendaraanRepository
-                                  .updateStatusKendaraanKembali(
-                                widget.id_kendaraan.toString(),
-                                0,
-                                totalKm().toString(),
-                                totalSaldo().toString(),
-                              );
-                              if (response == true && responseUpdate == true) {
-                                CoolAlert.show(
-                                  context: context,
-                                  type: CoolAlertType.success,
-                                  text: "Pengembalian Anda Berhasil!",
-                                  confirmBtnText: "Selesai",
-                                  onConfirmBtnTap: (() {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomePage()),
-                                    );
-                                  }),
+                          bool responseUpdate = await kendaraanRepository
+                              .updateStatusKendaraanKembali(
+                            widget.id_kendaraan.toString(),
+                            0,
+                            totalKm().toString(),
+                            totalSaldo().toString(),
+                          );
+                          if (response == true && responseUpdate == true) {
+                            CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.success,
+                              text: "Pengembalian Anda Berhasil!",
+                              confirmBtnText: "Selesai",
+                              onConfirmBtnTap: (() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()),
                                 );
-                              } else {
-                                CoolAlert.show(
-                                  context: context,
-                                  type: CoolAlertType.error,
-                                  text: "Pengembalian Anda gagal :(",
-                                  confirmBtnText: "Kembali",
-                                );
-                              }
-                            }
-                          },
-                          child: Text("Submit")))
+                              }),
+                            );
+                          } else {
+                            CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.error,
+                              text: "Pengembalian Anda gagal :(",
+                              confirmBtnText: "Kembali",
+                            );
+                          }
+                        }
+                      },
+                      child: Text("Submit")
+                    )
+                  )
+                  : Container()
                 ],
               ),
             )),
+            
       ];
   @override
   Widget build(BuildContext context) {
@@ -345,14 +439,18 @@ class _PengembalianPageState extends State<PengembalianPage> {
             controlsBuilder: (context, _) {
               return Row(
                 children: <Widget>[
-                  TextButton(
+                  _index != 2 
+                  ? TextButton(
                     onPressed: onStepContinue,
                     child: const Text('Selanjutnya'),
-                  ),
-                  TextButton(
+                  )
+                  : Container(),
+                  _index != 0 
+                  ? TextButton(
                     onPressed: onStepCancel,
                     child: const Text('Sebelumnya'),
-                  ),
+                  )
+                  : Container(),
                 ],
               );
             },
