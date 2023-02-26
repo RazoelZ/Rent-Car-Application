@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:rentvehicle_application/constants.dart';
 import 'package:rentvehicle_application/model/DriverModel.dart';
 import 'package:rentvehicle_application/model/HistoryModel.dart';
 import 'package:rentvehicle_application/model/KendaraanModel.dart';
@@ -9,8 +10,9 @@ import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
 //Mengambil data dari table kendaraan
-const _baseUrl = "http://192.168.0.109/rent_car/public/api";
+// const _baseUrl = "http://192.168.0.109/rent_car/public/api";
 // const _baseUrl = "http://192.168.0.109:8080/api";
+const _baseUrl = '${kBASE_URL}/api';
 
 class KendaraanRepository {
   Future getData() async {
@@ -196,7 +198,7 @@ class PeminjamanRepository {
       String saldo_tol_akhir,
       String hargabbm,
       String lampiran_tol,
-      String lampiran_bbm,
+      String lampiran_bbm, 
       String total_km) async {
     try {
       final response =

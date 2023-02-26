@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:rentvehicle_application/constants.dart';
 import 'package:rentvehicle_application/screen/forgotpassword.dart';
 import 'package:rentvehicle_application/screen/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,8 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   bool _obsecuretext = true;
   bool visible = false;
-  final String sUrl =
-      "http://192.168.0.109/rent_car/public/api/UserAuthentication";
+  final String sUrl = "$kBASE_URL/api/UserAuthentication";
+      //"http://192.168.0.109/rent_car/public/api/UserAuthentication";
   // "http://192.168.0.109:8080/api/autentikasiapi";
 
   String generateMd5(String input) {

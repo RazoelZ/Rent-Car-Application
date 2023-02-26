@@ -4,6 +4,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rentvehicle_application/constants.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/screen/home.dart';
 import 'package:http/http.dart' as http;
@@ -206,7 +207,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     showSearchBox: true,
                     onFind: (text) async {
                       var response = await http.get(Uri.parse(
-                          'http://192.168.0.109/rent_car/public/api/driver'));
+                          '$kBASE_URL/api/driver'));
                       if (response.statusCode != 200) {
                         return [];
                       }

@@ -14,7 +14,7 @@ class ScanPage extends StatefulWidget {
 }
 
 class _ScanPageState extends State<ScanPage> {
-  String? cameraScanResult = null;
+  String? cameraScanResult;
   KendaraanRepository kendaraanRepository = KendaraanRepository();
   List<KendaraanModel> kendaraan = [];
 
@@ -96,7 +96,7 @@ class _ScanPageState extends State<ScanPage> {
                     );
                   }),
                   child: Text("Kembalikan")),
-            ElevatedButton(
+            /*ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -105,7 +105,7 @@ class _ScanPageState extends State<ScanPage> {
                     ),
                   );
                 },
-                child: Text("upload foto"))
+                child: Text("upload foto"))*/
           ],
         ),
       ),
