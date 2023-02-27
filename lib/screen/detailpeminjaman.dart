@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rentvehicle_application/screen/Peminjaman.dart';
 
+import '../constants.dart';
+
 class DetailKendaraanPage extends StatefulWidget {
   final String? id_kendaraan;
   final String? tipe_kendaraan;
@@ -33,19 +35,20 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
       ),
       body: Center(
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: const EdgeInsets.all(15),
           child: ListView(
             children: <Widget>[
               Container(
-                // child: Image.network(widget.gambar!),
-                child: Image(
-                  image: AssetImage("assets/images/logo.png"),
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width / 1.5,
+                margin: const EdgeInsets.only(bottom: 20),
+                child: Image.network(
+                  '$kBASE_URL/assets/img_kendaraan/${widget.gambar}',
+                  fit: BoxFit.contain,
+                  width: 200,
+                  height: 200,
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(bottom: 20),
                 child: TextFormField(
                   readOnly: true,
                   enabled: false,

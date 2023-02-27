@@ -21,8 +21,6 @@ class _LoginPageState extends State<LoginPage> {
   bool _obsecuretext = true;
   bool visible = false;
   final String sUrl = "$kBASE_URL/api/UserAuthentication";
-      //"http://192.168.0.109/rent_car/public/api/UserAuthentication";
-  // "http://192.168.0.109:8080/api/autentikasiapi";
 
   String generateMd5(String input) {
     return md5.convert(utf8.encode(input)).toString();
@@ -35,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = await SharedPreferences.getInstance();
 
     var params =
-        "?username=${usernameController.text}&password=${generateMd5(passwordController.text)}";
+        "?username=${usernameController.text}&password=${passwordController.text}";
     try {
       var res = await http.get(Uri.parse(sUrl + params));
       if (res.statusCode == 200) {
@@ -70,7 +68,9 @@ class _LoginPageState extends State<LoginPage> {
               return alert;
             });
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                 ),
-                Container(
+                SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 100,
                     child: WebViewPlus(
@@ -141,9 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                       javascriptChannels: Set.from([
                         JavascriptChannel(
                             name: 'Captcha',
-                            onMessageReceived: (JavascriptMessage message) {
-                              print(message.message);
-                            }),
+                            onMessageReceived: (JavascriptMessage message) {}),
                       ]),
                     )),
                 SizedBox(

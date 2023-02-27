@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:rentvehicle_application/constants.dart';
-import 'package:rentvehicle_application/screen/scan.dart';
 
 class FotoPage extends StatefulWidget {
   final String id_peminjaman;
   final String category;
-  const FotoPage({required this.id_peminjaman, required this.category, super.key});
+  const FotoPage(
+      {required this.id_peminjaman, required this.category, super.key});
 
   @override
   State<FotoPage> createState() => _FotoPageState();
@@ -35,14 +35,16 @@ class _FotoPageState extends State<FotoPage> {
     });
   }
 
-  Future<String?> uploadImage(BuildContext context, File imageFile, String category) async {
+  Future<String?> uploadImage(
+      BuildContext context, File imageFile, String category) async {
     var stream = http.ByteStream(imageFile.openRead());
     var length = await imageFile.length();
     var uri = Uri.parse("$kBASE_URL/api/uploadImage");
 
     var request = http.MultipartRequest("POST", uri);
 
-    var MultiPartFile = http.MultipartFile(category, stream, length, filename: basename(imageFile.path));
+    var MultiPartFile = http.MultipartFile(category, stream, length,
+        filename: basename(imageFile.path));
 
     Map<String, String> body = {
       'id': widget.id_peminjaman,
@@ -101,27 +103,30 @@ class _FotoPageState extends State<FotoPage> {
               ],
             ),
             isUploading == false
-            ? ElevatedButton(
-              onPressed: () async {
-                setState(() {
-                  isUploading = true;
-                });
-                var success = await uploadImage(context, _image!, widget.category);
-                if (success!=null) {
-                  Navigator.pop(context, success);
-                }else{
-                  setState(() {
-                    isUploading = false;
-                    isFailed = true;
-                  });
-                }
-              },
-              child: Text("Upload")
-            )
-            : CircularProgressIndicator(),
-            isFailed 
-            ? Text('Upload gagal', style: TextStyle(color: Colors.redAccent),)
-            : Container()
+                ? ElevatedButton(
+                    onPressed: () async {
+                      setState(() {
+                        isUploading = true;
+                      });
+                      var success =
+                          await uploadImage(context, _image!, widget.category);
+                      if (success != null) {
+                        Navigator.pop(context, success);
+                      } else {
+                        setState(() {
+                          isUploading = false;
+                          isFailed = true;
+                        });
+                      }
+                    },
+                    child: Text("Upload"))
+                : CircularProgressIndicator(),
+            isFailed
+                ? Text(
+                    'Upload gagal',
+                    style: TextStyle(color: Colors.redAccent),
+                  )
+                : Container()
           ],
         ),
       ),

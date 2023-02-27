@@ -17,13 +17,11 @@ class GantiPasswordPage extends StatefulWidget {
 class _GantiPasswordPageState extends State<GantiPasswordPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     pref();
     getData();
   }
 
-  @override
   pref() async {
     final prefs = await SharedPreferences.getInstance();
     _iduser.text = prefs.getString("id_user")!;

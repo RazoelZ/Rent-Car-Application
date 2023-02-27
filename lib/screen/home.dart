@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         }
       },
       child: Scaffold(
-        body: IndexedStack(children: callPage, index: currentIndex),
+        body: IndexedStack(index: currentIndex, children: callPage),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: currentIndex,

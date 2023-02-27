@@ -27,7 +27,6 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
     super.initState();
     _idkendaraan.text = widget.id_kendaraan;
     pref();
-    print(widget.tipe_kendaraan);
   }
 
   pref() async {
@@ -59,7 +58,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
   List<Step> steps() => [
         Step(
             isActive: _index >= 0 ? true : false,
-            title: const Text('Langkah 1'),
+            title: const Text('Waktu'),
             content: Form(
               key: _formKeys[0],
               child: Column(
@@ -73,7 +72,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(2015),
+                        firstDate: DateTime.now(),
                         lastDate: DateTime(2101),
                       );
                       if (pickedDate != null) {
@@ -159,7 +158,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
             )),
         Step(
             isActive: _index >= 1 ? true : false,
-            title: const Text('Langkah 2'),
+            title: const Text('Detail'),
             content: Form(
               key: _formKeys[1],
               child: Column(
@@ -206,8 +205,8 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     enabled: true,
                     showSearchBox: true,
                     onFind: (text) async {
-                      var response = await http.get(Uri.parse(
-                          '$kBASE_URL/api/driver'));
+                      var response =
+                          await http.get(Uri.parse('$kBASE_URL/api/driver'));
                       if (response.statusCode != 200) {
                         return [];
                       }
@@ -261,7 +260,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                                 text: "Peminjaman Anda Berhasil!",
                                 confirmBtnText: "Selesai",
                                 onConfirmBtnTap: (() {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => HomePage()));
@@ -287,7 +286,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Form Peminjaman ' + widget.tipe_kendaraan),
+          title: Text('Form Peminjaman ${widget.tipe_kendaraan}'),
         ),
         body: Stepper(
             controlsBuilder: (context, _) {

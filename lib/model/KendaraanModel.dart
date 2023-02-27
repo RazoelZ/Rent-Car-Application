@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class KendaraanModel {
   final String? id_kendaraan;
   final String? id_departemen;

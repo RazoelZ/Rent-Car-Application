@@ -3,6 +3,8 @@ import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/screen/detailpeminjaman.dart';
 
+import '../constants.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -109,13 +111,13 @@ class _MainPageState extends State<MainPage> {
                           getData();
                         });
                       },
-                      child: const Text("Semua"),
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
                               _allpressed ? Colors.blue : Colors.grey[200],
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)))),
+                      child: const Text("Semua"),
                     ),
                   ),
                 ),
@@ -132,19 +134,19 @@ class _MainPageState extends State<MainPage> {
                           getMobilData();
                         });
                       },
-                      child: const Text("Mobil"),
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
                               _mobilpressed ? Colors.blue : Colors.grey[200],
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)))),
+                      child: const Text("Mobil"),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(right: 10),
+                    margin: const EdgeInsets.only(right: 10),
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -155,13 +157,13 @@ class _MainPageState extends State<MainPage> {
                           getMotorData();
                         });
                       },
-                      child: const Text("Motor"),
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
                               _motorpressed ? Colors.blue : Colors.grey[200],
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)))),
+                      child: const Text("Motor"),
                     ),
                   ),
                 ),
@@ -196,7 +198,12 @@ class _MainPageState extends State<MainPage> {
                         );
                       },
                       leading:
-                          Image(image: AssetImage("assets/images/logo.png")),
+                          // Image(image: AssetImage("assets/images/logo.png"))
+                          Image.network(
+                              '$kBASE_URL/assets/img_kendaraan/${mainKendaraan[index].gambar}',
+                              fit: BoxFit.contain,
+                              width: 80,
+                              height: 70),
                       title: Text((mainKendaraan != null)
                           ? mainKendaraan[index].tipe_kendaraan.toString()
                           : "Loading..."),

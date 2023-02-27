@@ -31,8 +31,8 @@ class _ProfilePageState extends State<ProfilePage> {
   _logOut() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool("isLogin", false);
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
   }
 
   Future exitDialog() {

@@ -79,14 +79,12 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
                 ? historylog[index].tipeKendaraan.toString()
                 : "Loading..."),
             subtitle: Text((historylog != null)
-                ? "Driver : " + historylog[index].driver.toString()
+                ? "Driver : ${historylog[index].driver}"
                 : "Loading..."),
             trailing: Text((historylog != null)
                 ? (historylog[index].tglKembali.toString() == "null")
                     ? "Belum dikembalikan"
-                    : "Sudah dikembalikan" +
-                        "\n" +
-                        historylog[index].tglPeminjaman.toString()
+                    : "Sudah dikembalikan\n${historylog[index].tglPeminjaman}"
                 : "Loading..."),
             shape: Border(
               bottom: BorderSide(color: Colors.grey),

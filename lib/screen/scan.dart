@@ -3,8 +3,9 @@ import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/KendaraanModel.dart';
 import 'package:rentvehicle_application/screen/Peminjaman.dart';
-import 'package:rentvehicle_application/screen/fototototo.dart';
 import 'package:rentvehicle_application/screen/pengembalian.dart';
+
+import '../constants.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -48,8 +49,31 @@ class _ScanPageState extends State<ScanPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            if (kendaraan.isEmpty == true)
+              Container(
+                margin: EdgeInsets.only(top: 50),
+                child: Image(
+                  image: AssetImage("assets/images/logo.png"),
+                  fit: BoxFit.contain,
+                  width: 300,
+                  height: 200,
+                ),
+              )
+            else
+              Container(
+                margin: EdgeInsets.only(top: 50),
+                child: Image.network(
+                    '$kBASE_URL/assets/img_kendaraan/' +
+                        kendaraan[0].gambar.toString(),
+                    fit: BoxFit.contain,
+                    width: 300,
+                    height: 200),
+              ),
+            Text((cameraScanResult == null)
+                ? 'Nomor plat kendaraan : belum ada'
+                : 'Nomor plat kendaraan : $cameraScanResult'),
             ElevatedButton(
               onPressed: () async {
                 cameraScanResult = await scanner.scan();
@@ -60,11 +84,8 @@ class _ScanPageState extends State<ScanPage> {
               },
               child: const Text('Scan'),
             ),
-            Text((cameraScanResult == null)
-                ? 'Nomor plat kendaraan : belum ada'
-                : 'Nomor plat kendaraan : $cameraScanResult'),
             if (kendaraan.isEmpty == true)
-              Text("gaada data")
+              Text("")
             else if (kendaraan[0].pinjam.toString() == "0")
               ElevatedButton(
                   onPressed: (() {
@@ -96,16 +117,6 @@ class _ScanPageState extends State<ScanPage> {
                     );
                   }),
                   child: Text("Kembalikan")),
-            /*ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FotoPage(),
-                    ),
-                  );
-                },
-                child: Text("upload foto"))*/
           ],
         ),
       ),
