@@ -9,8 +9,10 @@ import 'package:rentvehicle_application/model/UserModel.dart';
 import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
 import 'package:rentvehicle_application/model/PeminjamanModel.dart';
 
+//API link
 const _baseUrl = '${kBASE_URL}/api';
 
+//Mengambil data kendaraan
 class KendaraanRepository {
   Future getData() async {
     try {
@@ -28,6 +30,7 @@ class KendaraanRepository {
     }
   }
 
+  //update kendaraan dipinjam
   Future updateStatusKendaraan(
     String id_kendaraan,
     int pinjam,
@@ -49,6 +52,7 @@ class KendaraanRepository {
     }
   }
 
+  //update status pengembalian sudah dikembalikan
   Future updateStatusKendaraanKembali(
     String id_kendaraan,
     int pinjam,
@@ -75,7 +79,7 @@ class KendaraanRepository {
   }
 }
 
-//Mengambil data dari table user
+//Mengambil data user
 class UserRepository {
   Future getData() async {
     try {
@@ -93,6 +97,7 @@ class UserRepository {
     }
   }
 
+  //update password user
   Future updatePassword(
     String id_user,
     String password,
@@ -115,7 +120,7 @@ class UserRepository {
   }
 }
 
-//Mengambil data dari table mainkendaran untuk page home
+//Mengambil data mainkendaran
 class MainKendaraanRepository {
   Future getData() async {
     try {
@@ -134,8 +139,7 @@ class MainKendaraanRepository {
   }
 }
 
-//Mengirim data ke table peminjaman
-
+//Mengambil data ke table peminjaman
 class PeminjamanRepository {
   Future getData() async {
     try {
@@ -153,6 +157,7 @@ class PeminjamanRepository {
     }
   }
 
+  //membuat peminjaman
   Future postPeminjamanData(
     String id_kendaraan,
     String id_user,
@@ -187,6 +192,7 @@ class PeminjamanRepository {
     } catch (e) {}
   }
 
+  //update peminjaman atau disebut pengembaliannya
   Future putPeminjamanData(
       String id,
       String tgl_kembali,
@@ -220,6 +226,7 @@ class PeminjamanRepository {
   }
 }
 
+//Mengambil data driver
 class DriverRepository {
   Future getDriverData() async {
     try {
@@ -238,6 +245,7 @@ class DriverRepository {
   }
 }
 
+//mengambil data history
 class HistoryRepository {
   Future getData() async {
     try {

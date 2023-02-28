@@ -24,6 +24,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     getData();
   }
 
+  //mengambil data dari user
   getData() async {
     var data = await userRepository.getData();
     setState(() {
@@ -31,6 +32,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     });
   }
 
+  //Mengirim email ke untuk mendapatkan link ganti password
   Future<void> sendMail() async {
     String username = 'dany.razoel69@gmail.com';
     String password = 'geawdutmyzsuypwm';

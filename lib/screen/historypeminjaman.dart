@@ -16,12 +16,13 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
   HistoryRepository historyRepository = HistoryRepository();
 
   String? _iduser;
-
+  //mengambil data login
   pref() async {
     final prefs = await SharedPreferences.getInstance();
     _iduser = prefs.getString("id_user")!;
   }
 
+  //mengambil data history
   getData() async {
     var data = await historyRepository.getData();
     setState(() {
@@ -99,9 +100,3 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
     );
   }
 }
-
-
-// Text((historylog != "null")
-//                 ? "Tanggal Kembali : \n" +
-//                     historylog[index].tglKembali.toString()
-//                 : "Loading..."),

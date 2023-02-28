@@ -28,18 +28,20 @@ class _PengembalianPageState extends State<PengembalianPage> {
     updatePengembalian();
   }
 
+  //mengambil data login
   pref() async {
     final prefs = await SharedPreferences.getInstance();
     _iduser.text = prefs.getString("id_user")!;
   }
 
+  bool _isLoading = false;
   int _index = 0;
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
   KendaraanRepository kendaraanRepository = KendaraanRepository();
   List<Peminjaman> peminjaman = [];
 
   // cari dlu kendaraan yang dipinjam lalu dicocokin sama nomor polisi yang di scan!
-
+  // fungsion pengembalian
   updatePengembalian() async {
     var data = await peminjamanRepository.getData();
     setState(() {
@@ -52,6 +54,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
     });
   }
 
+  //controller form
   final TextEditingController _iduser = TextEditingController();
   final TextEditingController _idpengembalian = TextEditingController();
   final TextEditingController _tanggalkembaliController =
@@ -93,12 +96,14 @@ class _PengembalianPageState extends State<PengembalianPage> {
     return totalAkhir;
   }
 
+  //menghitung selisih km
   int selisihKm() {
     String kmawal = peminjaman[0].km_awal.toString();
     int selisihKM = (int.parse(kmawal) - int.parse(_kmakhir.text)).abs();
     return selisihKM;
   }
 
+  //global key form
   final List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
@@ -122,7 +127,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(2015),
+                        firstDate: DateTime.now(),
                         lastDate: DateTime(2101),
                       );
                       if (pickedDate != null) {
@@ -360,57 +365,78 @@ class _PengembalianPageState extends State<PengembalianPage> {
                       ? Container(
                           margin: EdgeInsets.only(top: 10),
                           child: ElevatedButton(
-                              onPressed: () async {
-                                if (uploadedImageBBM != null &&
-                                    uploadedImageTol != null) {
-                                  bool response = await peminjamanRepository
-                                      .putPeminjamanData(
-                                          _idpengembalian.text = peminjaman[0]
-                                              .id_peminjaman
-                                              .toString(),
-                                          _tanggalkembaliController.text,
-                                          _jamkembaliController.text,
-                                          _kmakhir.text,
-                                          _saldotolakhir.text,
-                                          _hargabbm.text,
-                                          uploadedImageTol!,
-                                          uploadedImageBBM!,
-                                          selisihKm().toString());
+                            onPressed: () async {
+                              if (uploadedImageBBM != null &&
+                                  uploadedImageTol != null) {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                bool response = await peminjamanRepository
+                                    .putPeminjamanData(
+                                        _idpengembalian.text = peminjaman[0]
+                                            .id_peminjaman
+                                            .toString(),
+                                        _tanggalkembaliController.text,
+                                        _jamkembaliController.text,
+                                        _kmakhir.text,
+                                        _saldotolakhir.text,
+                                        _hargabbm.text,
+                                        uploadedImageTol!,
+                                        uploadedImageBBM!,
+                                        selisihKm().toString());
 
-                                  bool responseUpdate =
-                                      await kendaraanRepository
-                                          .updateStatusKendaraanKembali(
-                                    widget.id_kendaraan.toString(),
-                                    0,
-                                    totalKm().toString(),
-                                    totalSaldo().toString(),
+                                bool responseUpdate = await kendaraanRepository
+                                    .updateStatusKendaraanKembali(
+                                  widget.id_kendaraan.toString(),
+                                  0,
+                                  totalKm().toString(),
+                                  totalSaldo().toString(),
+                                );
+                                if (response == true &&
+                                    responseUpdate == true) {
+                                  CoolAlert.show(
+                                    context: context,
+                                    type: CoolAlertType.success,
+                                    text: "Pengembalian Anda Berhasil!",
+                                    confirmBtnText: "Selesai",
+                                    onConfirmBtnTap: (() {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage()),
+                                      );
+                                    }),
                                   );
-                                  if (response == true &&
-                                      responseUpdate == true) {
-                                    CoolAlert.show(
-                                      context: context,
-                                      type: CoolAlertType.success,
-                                      text: "Pengembalian Anda Berhasil!",
-                                      confirmBtnText: "Selesai",
-                                      onConfirmBtnTap: (() {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => HomePage()),
-                                        );
-                                      }),
-                                    );
-                                  } else {
-                                    CoolAlert.show(
-                                      context: context,
-                                      type: CoolAlertType.error,
-                                      text: "Pengembalian Anda gagal :(",
-                                      confirmBtnText: "Kembali",
-                                    );
-                                  }
+                                } else {
+                                  CoolAlert.show(
+                                    context: context,
+                                    type: CoolAlertType.error,
+                                    text: "Pengembalian Anda gagal :(",
+                                    confirmBtnText: "Kembali",
+                                  );
                                 }
-                              },
-                              child: Text("Submit")))
+                              }
+                            },
+                            child: _isLoading
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text('Loading...'),
+                                    ],
+                                  )
+                                : Text('Submit'),
+                          ))
                       : Container()
                 ],
               ),
@@ -426,26 +452,26 @@ class _PengembalianPageState extends State<PengembalianPage> {
             controlsBuilder: (context, _) {
               return Row(
                 children: <Widget>[
-                  _index != 2
-                      ? TextButton(
-                          onPressed: onStepContinue,
-                          child: const Text('Selanjutnya'),
-                        )
-                      : Container(),
                   _index != 0
                       ? TextButton(
                           onPressed: onStepCancel,
                           child: const Text('Sebelumnya'),
                         )
                       : Container(),
+                  _index != 2
+                      ? TextButton(
+                          onPressed: onStepContinue,
+                          child: const Text('Selanjutnya'),
+                        )
+                      : Container(),
                 ],
               );
             },
             currentStep: _index,
-            // type: StepperType.horizontal,
             steps: steps()));
   }
 
+  //step continue stepper form
   void onStepContinue() {
     if (!_formKeys[_index].currentState!.validate()) {
       return null;
@@ -457,6 +483,7 @@ class _PengembalianPageState extends State<PengembalianPage> {
     }
   }
 
+  //step cancel stepper form
   void onStepCancel() {
     if (_index == 0) {
       return null;

@@ -65,10 +65,10 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                   readOnly: true,
                   enabled: false,
                   decoration: InputDecoration(
-                    labelText: "Jenis Kendaraan",
+                    labelText: "Nomor Polisi",
                     border: OutlineInputBorder(),
                   ),
-                  initialValue: widget.jenis_kendaraan,
+                  initialValue: widget.nomor_polisi,
                 ),
               ),
               Container(
@@ -77,10 +77,10 @@ class _DetailKendaraanPageState extends State<DetailKendaraanPage> {
                   readOnly: true,
                   enabled: false,
                   decoration: InputDecoration(
-                    labelText: "Nomor Polisi",
+                    labelText: "Jenis Kendaraan",
                     border: OutlineInputBorder(),
                   ),
-                  initialValue: widget.nomor_polisi,
+                  initialValue: widget.jenis_kendaraan,
                 ),
               ),
               Container(

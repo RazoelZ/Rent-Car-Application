@@ -20,7 +20,7 @@ class _FotoPageState extends State<FotoPage> {
   File? _image;
   bool isUploading = false;
   bool isFailed = false;
-
+  //mengambil gambar dari gallery
   Future getImageGallery() async {
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
@@ -28,6 +28,7 @@ class _FotoPageState extends State<FotoPage> {
     });
   }
 
+  //mengambil gambar dari camera
   Future getImageCamera() async {
     var image = await ImagePicker().pickImage(source: ImageSource.camera);
     setState(() {
@@ -35,6 +36,7 @@ class _FotoPageState extends State<FotoPage> {
     });
   }
 
+  //function upload image
   Future<String?> uploadImage(
       BuildContext context, File imageFile, String category) async {
     var stream = http.ByteStream(imageFile.openRead());

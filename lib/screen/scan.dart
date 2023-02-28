@@ -21,6 +21,7 @@ class _ScanPageState extends State<ScanPage> {
 
   String? status;
 
+  //mengambil data kendaraan
   getData() async {
     var data = await kendaraanRepository.getData();
     setState(() {
@@ -45,7 +46,7 @@ class _ScanPageState extends State<ScanPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Scan'),
+        title: const Text('Scan qr-qode'),
       ),
       body: Center(
         child: Column(

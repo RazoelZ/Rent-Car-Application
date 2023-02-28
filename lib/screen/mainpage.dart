@@ -19,6 +19,7 @@ class _MainPageState extends State<MainPage> {
   List<MainKendaraan> mainKendaraan = [];
   MainKendaraanRepository repository = MainKendaraanRepository();
 
+  //Mengambil data dari main kendaraan
   getData() async {
     var data = await repository.getData();
     setState(() {
@@ -30,6 +31,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  //Mengambil data mobil
   getMobilData() async {
     var data = await repository.getData();
     setState(() {
@@ -42,6 +44,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  //Mengambil data motor
   getMotorData() async {
     var data = await repository.getData();
     setState(() {
@@ -222,7 +225,7 @@ class _MainPageState extends State<MainPage> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text((mainKendaraan != null)
-                              ? "Plat : ${mainKendaraan[index].nomor_polisi}"
+                              ? "No.Polisi : ${mainKendaraan[index].nomor_polisi}"
                               : "Loading..."),
                         ],
                       ),

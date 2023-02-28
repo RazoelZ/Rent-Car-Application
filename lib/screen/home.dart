@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
+  //page dari menu button
   final callPage = [
     MainPage(),
     HistoryPeminjamanPage(),
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
     ProfilePage()
   ];
 
+  //Identifikasi sudah login atau belom
   startLaunching() async {
     final prefs = await SharedPreferences.getInstance();
     bool? isLogin = prefs.getBool("isLogin") ?? false;

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -32,18 +31,23 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
   pref() async {
     final prefs = await SharedPreferences.getInstance();
     _iduser.text = prefs.getString("id_user")!;
+    _driverController.text = prefs.getString("nama")!;
   }
 
   int _index = 0;
-
+  bool _isLoading = false;
   PeminjamanRepository peminjamanRepository = PeminjamanRepository();
   KendaraanRepository kendaraanRepository = KendaraanRepository();
+  UserRepository userRepository = UserRepository();
 
+  //global key form
   final List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
   ];
   DateTime? _selectedDate;
+
+  //controller text
   final TextEditingController _idkendaraan = TextEditingController();
   final TextEditingController _iduser = TextEditingController();
   final TextEditingController _tanggalpinjamController =
@@ -55,6 +59,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
   final TextEditingController _keperluanController = TextEditingController();
   final TextEditingController _driverController = TextEditingController();
 
+  //stepper form
   List<Step> steps() => [
         Step(
             isActive: _index >= 0 ? true : false,
@@ -193,7 +198,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                   DropdownSearch<String>(
                     dropdownSearchDecoration: InputDecoration(
                       icon: Icon(Icons.person),
-                      labelText: "Driver",
+                      labelText: "Driver kantor",
                     ),
                     dropdownButtonBuilder: (context) {
                       return Container(
@@ -203,6 +208,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     },
                     mode: Mode.MENU,
                     enabled: true,
+                    selectedItem: _driverController.text,
                     showSearchBox: true,
                     onFind: (text) async {
                       var response =
@@ -224,7 +230,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Masukan Driver Anda!";
+                        return "Masukan driver kantor!";
                       } else {
                         return null;
                       }
@@ -236,6 +242,9 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                       onPressed: () async {
                         if (_formKeys[0].currentState!.validate() &&
                             _formKeys[1].currentState!.validate()) {
+                          setState(() {
+                            _isLoading = true;
+                          });
                           bool response =
                               await peminjamanRepository.postPeminjamanData(
                                   _idkendaraan.text,
@@ -275,7 +284,25 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
                           }
                         }
                       },
-                      child: Text("Submit"),
+                      child: _isLoading
+                          ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text('Loading...'),
+                              ],
+                            )
+                          : Text('Submit'),
                     ),
                   )
                 ],
@@ -292,18 +319,18 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
             controlsBuilder: (context, _) {
               return Row(
                 children: <Widget>[
-                  Container(
-                    child: TextButton(
-                      onPressed: onStepContinue,
-                      child: const Text('Selanjutnya'),
-                    ),
-                  ),
-                  Container(
-                    child: TextButton(
-                      onPressed: onStepCancel,
-                      child: const Text('Sebelumnya'),
-                    ),
-                  ),
+                  _index != 0
+                      ? TextButton(
+                          onPressed: onStepCancel,
+                          child: const Text('Sebelumnya'),
+                        )
+                      : Container(),
+                  _index != 1
+                      ? TextButton(
+                          onPressed: onStepContinue,
+                          child: const Text('Selanjutnya'),
+                        )
+                      : Container(),
                 ],
               );
             },
@@ -312,6 +339,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
             steps: steps()));
   }
 
+  //step continue stepper form
   void onStepContinue() {
     if (!_formKeys[_index].currentState!.validate()) {
       return null;
@@ -323,6 +351,7 @@ class _PeminjamanPageState extends State<PeminjamanPage> {
     }
   }
 
+  //step cancel stepper form
   void onStepCancel() {
     if (_index == 0) {
       return null;

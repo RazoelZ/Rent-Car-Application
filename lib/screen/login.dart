@@ -22,10 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   bool visible = false;
   final String sUrl = "$kBASE_URL/api/UserAuthentication";
 
-  String generateMd5(String input) {
-    return md5.convert(utf8.encode(input)).toString();
-  }
-
+  //fungsi cek login
   _cekLogin() async {
     setState(() {
       visible = true;
@@ -93,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextFormField(
-                  controller: usernameController..text = 'dafa@gmail.com',
+                  controller: usernameController..text = "dafa@gmail.com",
                   decoration: InputDecoration(
                       labelText: "username",
                       icon: Icon(Icons.person_outline),
@@ -107,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 TextFormField(
-                  controller: passwordController..text = '123456789',
+                  controller: passwordController..text = "1234567",
                   obscureText: _obsecuretext,
                   decoration: InputDecoration(
                       labelText: "Password",

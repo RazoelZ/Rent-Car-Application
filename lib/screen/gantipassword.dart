@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:rentvehicle_application/core/repository.dart';
 import 'package:rentvehicle_application/model/UserModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rentvehicle_application/screen/home.dart';
 
 class GantiPasswordPage extends StatefulWidget {
   const GantiPasswordPage({super.key});
@@ -42,14 +43,17 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> {
     });
   }
 
+  //obsecure text form
   bool _obsecuretext = true;
   bool _obsecuretext1 = true;
   bool _obsecuretext2 = true;
   final _formState = GlobalKey<FormState>();
+
   final TextEditingController _iduser = TextEditingController();
   final TextEditingController passwordlama = TextEditingController();
   final TextEditingController passwordbaru = TextEditingController();
   final TextEditingController passwordbaru2 = TextEditingController();
+
   UserRepository userRepository = UserRepository();
   List<User> userData = [];
 
@@ -174,7 +178,10 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> {
                           type: CoolAlertType.success,
                           text: "Password berhasil diubah",
                           onConfirmBtnTap: () {
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
                           },
                         );
                       } else {

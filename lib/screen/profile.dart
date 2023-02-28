@@ -13,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _nama = TextEditingController();
-
+  //mengambil data login
   pref() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -28,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
     pref();
   }
 
+  //fungsion logout
   _logOut() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool("isLogin", false);
@@ -35,6 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
         MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
   }
 
+  //dialog alert logout
   Future exitDialog() {
     return showDialog(
         context: context,
