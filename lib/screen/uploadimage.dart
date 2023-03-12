@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:rentvehicle_application/constants.dart';
+import 'package:DESARMADA/constants.dart';
 
 class FotoPage extends StatefulWidget {
   final String id_peminjaman;

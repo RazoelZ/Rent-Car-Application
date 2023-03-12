@@ -1,11 +1,11 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rentvehicle_application/constants.dart';
-import 'package:rentvehicle_application/core/repository.dart';
-import 'package:rentvehicle_application/model/PeminjamanModel.dart';
-import 'package:rentvehicle_application/screen/uploadimage.dart';
-import 'package:rentvehicle_application/screen/home.dart';
+import 'package:DESARMADA/constants.dart';
+import 'package:DESARMADA/core/repository.dart';
+import 'package:DESARMADA/model/PeminjamanModel.dart';
+import 'package:DESARMADA/screen/uploadimage.dart';
+import 'package:DESARMADA/screen/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PengembalianPage extends StatefulWidget {

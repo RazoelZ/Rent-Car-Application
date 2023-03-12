@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/core/repository.dart';
-import 'package:rentvehicle_application/model/HistoryModel.dart';
-import 'package:rentvehicle_application/screen/peminjamandetail.dart';
+import 'package:DESARMADA/core/repository.dart';
+import 'package:DESARMADA/model/HistoryModel.dart';
+import 'package:DESARMADA/screen/peminjamandetail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryPeminjamanPage extends StatefulWidget {

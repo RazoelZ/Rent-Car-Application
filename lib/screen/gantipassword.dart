@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/core/repository.dart';
-import 'package:rentvehicle_application/model/UserModel.dart';
+import 'package:DESARMADA/core/repository.dart';
+import 'package:DESARMADA/model/UserModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:rentvehicle_application/screen/home.dart';
+import 'package:DESARMADA/screen/home.dart';
 
 class GantiPasswordPage extends StatefulWidget {
   const GantiPasswordPage({super.key});

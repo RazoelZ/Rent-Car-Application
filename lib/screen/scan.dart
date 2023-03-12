@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
-import 'package:rentvehicle_application/core/repository.dart';
-import 'package:rentvehicle_application/model/KendaraanModel.dart';
-import 'package:rentvehicle_application/screen/Peminjaman.dart';
-import 'package:rentvehicle_application/screen/pengembalian.dart';
+import 'package:DESARMADA/core/repository.dart';
+import 'package:DESARMADA/model/KendaraanModel.dart';
+import 'package:DESARMADA/screen/Peminjaman.dart';
+import 'package:DESARMADA/screen/pengembalian.dart';
 
 import '../constants.dart';
 

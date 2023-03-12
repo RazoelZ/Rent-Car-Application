@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
-import 'package:rentvehicle_application/core/repository.dart';
-import 'package:rentvehicle_application/model/UserModel.dart';
-import 'package:rentvehicle_application/screen/login.dart';
+import 'package:DESARMADA/core/repository.dart';
+import 'package:DESARMADA/model/UserModel.dart';
+import 'package:DESARMADA/screen/login.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});

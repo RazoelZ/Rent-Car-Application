@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:rentvehicle_application/constants.dart';
-import 'package:rentvehicle_application/screen/forgotpassword.dart';
-import 'package:rentvehicle_application/screen/home.dart';
+import 'package:DESARMADA/constants.dart';
+import 'package:DESARMADA/screen/forgotpassword.dart';
+import 'package:DESARMADA/screen/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:crypto/crypto.dart';
-import 'package:webview_flutter_plus/webview_flutter_plus.dart';
+import 'package:slider_captcha/slider_capchar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,14 +15,43 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _iscaptcha = false;
+  final SliderController controller = SliderController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _obsecuretext = true;
   bool visible = false;
   final String sUrl = "$kBASE_URL/api/UserAuthentication";
 
+  //fungsi captcha
+  _onCaptcha() {
+    setState(() {
+      _iscaptcha = true;
+    });
+  }
+
   //fungsi cek login
   _cekLogin() async {
+    if (_iscaptcha == false) {
+      AlertDialog alert = AlertDialog(
+        title: Text("Login Gagal"),
+        content: Text("Captcha belum diisi"),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("OK"))
+        ],
+      );
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          });
+      return;
+    }
+
     setState(() {
       visible = true;
     });
@@ -90,21 +118,21 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextFormField(
-                  controller: usernameController..text = "dafa@gmail.com",
+                  controller: usernameController..text = "randika@gmail.com",
                   decoration: InputDecoration(
                       labelText: "username",
                       icon: Icon(Icons.person_outline),
                       hintText: "Masukan username"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Masukan Email!";
+                      return "Masukan Username!";
                     } else {
                       return null;
                     }
                   },
                 ),
                 TextFormField(
-                  controller: passwordController..text = "1234567",
+                  controller: passwordController..text = "123456",
                   obscureText: _obsecuretext,
                   decoration: InputDecoration(
                       labelText: "Password",
@@ -127,19 +155,66 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                 ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 100,
-                    child: WebViewPlus(
-                      javascriptMode: JavascriptMode.unrestricted,
-                      onWebViewCreated: ((controllerPlus) {
-                        controllerPlus.loadUrl("assets/webpage/index.html");
-                      }),
-                      javascriptChannels: Set.from([
-                        JavascriptChannel(
-                            name: 'Captcha',
-                            onMessageReceived: (JavascriptMessage message) {}),
-                      ]),
+                Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Center(
+                                      child: Container(
+                                        margin: const EdgeInsets.all(30),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(40)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20),
+                                          child: SliderCaptcha(
+                                            title: "Geser untuk verifikasi",
+                                            titleStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                            controller: controller,
+                                            image: Image.asset(
+                                              'assets/images/captcha.jpg',
+                                              fit: BoxFit.fitWidth,
+                                            ),
+                                            onConfirm: (value) async {
+                                              if (value == true) {
+                                                _onCaptcha();
+                                                Navigator.pop(context);
+                                              }
+                                            },
+                                            colorBar: Colors.white,
+                                            colorCaptChar: Colors.blue,
+                                            space: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: Text("Verifikasi anda bukan robot!")),
+                        Container(
+                            child: (_iscaptcha == true)
+                                ? Container(
+                                    width: 20,
+                                    height: 20,
+                                    color: Colors.green,
+                                  )
+                                : Container(
+                                    width: 20,
+                                    height: 20,
+                                    color: Colors.red,
+                                  )),
+                      ],
                     )),
                 SizedBox(
                     width: MediaQuery.of(context).size.width,

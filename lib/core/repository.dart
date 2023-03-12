@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:rentvehicle_application/constants.dart';
-import 'package:rentvehicle_application/model/DriverModel.dart';
-import 'package:rentvehicle_application/model/HistoryModel.dart';
-import 'package:rentvehicle_application/model/KendaraanModel.dart';
-import 'package:rentvehicle_application/model/UserModel.dart';
-import 'package:rentvehicle_application/model/MainKendaraanModel.dart';
-import 'package:rentvehicle_application/model/PeminjamanModel.dart';
+import 'package:DESARMADA/constants.dart';
+import 'package:DESARMADA/model/DriverModel.dart';
+import 'package:DESARMADA/model/HistoryModel.dart';
+import 'package:DESARMADA/model/KendaraanModel.dart';
+import 'package:DESARMADA/model/UserModel.dart';
+import 'package:DESARMADA/model/MainKendaraanModel.dart';
+import 'package:DESARMADA/model/PeminjamanModel.dart';
 
 //API link
 const _baseUrl = '${kBASE_URL}/api';

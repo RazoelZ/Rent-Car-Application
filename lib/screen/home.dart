@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/screen/login.dart';
-import 'package:rentvehicle_application/screen/profile.dart';
-import 'package:rentvehicle_application/screen/mainpage.dart';
-import 'package:rentvehicle_application/screen/historypeminjaman.dart';
-import 'package:rentvehicle_application/screen/scan.dart';
+import 'package:DESARMADA/screen/login.dart';
+import 'package:DESARMADA/screen/profile.dart';
+import 'package:DESARMADA/screen/mainpage.dart';
+import 'package:DESARMADA/screen/historypeminjaman.dart';
+import 'package:DESARMADA/screen/scan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {

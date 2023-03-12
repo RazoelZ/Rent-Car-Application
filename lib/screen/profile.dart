@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rentvehicle_application/screen/gantipassword.dart';
-import 'package:rentvehicle_application/screen/login.dart';
+import 'package:DESARMADA/screen/gantipassword.dart';
+import 'package:DESARMADA/screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
