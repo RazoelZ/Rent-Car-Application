@@ -20,6 +20,7 @@ class HistoryLogModel {
   String? lampiranTol;
   String? lampiranBbm;
   String? totalKm;
+  String? gambar;
 
   HistoryLogModel({
     this.id_user,
@@ -43,6 +44,7 @@ class HistoryLogModel {
     this.lampiranTol,
     this.lampiranBbm,
     this.totalKm,
+    this.gambar,
   });
 
   factory HistoryLogModel.fromJson(Map<String, dynamic> json) =>
@@ -68,5 +70,6 @@ class HistoryLogModel {
         lampiranTol: json["lampiran_tol"],
         lampiranBbm: json["lampiran_bbm"],
         totalKm: json["total_km"],
+        gambar: json["gambar"],
       );
 }

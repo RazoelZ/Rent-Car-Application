@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class DetailPeminjamanPage extends StatefulWidget {
   final String id;
   final String idKendaraan;
@@ -16,6 +18,7 @@ class DetailPeminjamanPage extends StatefulWidget {
   final String keperluan;
   final String driver;
   final String platNomor;
+  final String gambar;
 
   const DetailPeminjamanPage({
     Key? key,
@@ -34,6 +37,7 @@ class DetailPeminjamanPage extends StatefulWidget {
     required this.keperluan,
     required this.driver,
     required this.platNomor,
+    required this.gambar,
   }) : super(key: key);
   @override
   State<DetailPeminjamanPage> createState() => _DetailPeminjamanPageState();
@@ -51,10 +55,14 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
           margin: EdgeInsets.all(15),
           child: ListView(
             children: <Widget>[
-              Image(
-                image: AssetImage("assets/images/logo.png"),
+              Container(
                 height: MediaQuery.of(context).size.height / 3,
                 width: MediaQuery.of(context).size.width / 1.5,
+                child: Image.network(
+                    '$kBASE_URL/assets/img_kendaraan/${widget.gambar}',
+                    fit: BoxFit.contain,
+                    width: 80,
+                    height: 70),
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 20),

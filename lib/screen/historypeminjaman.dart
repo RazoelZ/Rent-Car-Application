@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:DESARMADA/core/repository.dart';
 import 'package:DESARMADA/model/HistoryModel.dart';
-import 'package:DESARMADA/screen/peminjamandetail.dart';
+import 'package:DESARMADA/screen/historypeminjamandetail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryPeminjamanPage extends StatefulWidget {
@@ -72,6 +72,7 @@ class _HistoryPeminjamanPageState extends State<HistoryPeminjamanPage> {
                     keperluan: historylog[index].keperluan.toString(),
                     driver: historylog[index].driver.toString(),
                     platNomor: historylog[index].nomorPolisi.toString(),
+                    gambar: historylog[index].gambar.toString(),
                   ),
                 ),
               );
