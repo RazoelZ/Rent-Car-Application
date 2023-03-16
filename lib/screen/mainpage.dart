@@ -200,13 +200,11 @@ class _MainPageState extends State<MainPage> {
                           ),
                         );
                       },
-                      leading:
-                          // Image(image: AssetImage("assets/images/logo.png"))
-                          Image.network(
-                              '$kBASE_URL/assets/img_kendaraan/${mainKendaraan[index].gambar}',
-                              fit: BoxFit.contain,
-                              width: 80,
-                              height: 70),
+                      leading: Image.network(
+                          '$kBASE_URL/assets/img_kendaraan/${mainKendaraan[index].gambar}',
+                          fit: BoxFit.contain,
+                          width: 80,
+                          height: 70),
                       title: Text((mainKendaraan != null)
                           ? mainKendaraan[index].tipe_kendaraan.toString()
                           : "Loading..."),

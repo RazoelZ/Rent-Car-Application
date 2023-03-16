@@ -34,9 +34,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   //Mengirim email ke untuk mendapatkan link ganti password
   Future<void> sendMail() async {
-    String username = 'dany.razoel69@gmail.com';
-    String password = 'geawdutmyzsuypwm';
-
+    String username = 'agungramadhani2409@gmail.com';
+    String password = 'yakdupnzncilemtw';
+    //recipent addressnya masih dump karena belum ada data user aktual!!!!
     final smtpServer = gmail(username, password);
     final equivalentMessage = Message()
       ..from = Address(username, 'DESARMADA Reset Password')
